@@ -1,0 +1,225 @@
+// enterpriseRegistration.js
+//
+// Passo 1 de 2 do fluxo "Junte-se a nós": cadastro da empresa.
+// O backend só persiste empresa+admin juntos (POST /empresa/create),
+// então este passo NÃO cria a empresa sozinho -- ele apenas:
+//   1. valida os campos localmente (validation.js)
+//   2. confere no backend se o CNPJ já existe (GET /empresa/existe-cnpj/<cnpj>)
+//   3. se estiver livre, guarda os dados da empresa em sessionStorage
+//      e navega para adminRegistration.html
+//   4. o passo 2 lê os dados da empresa do sessionStorage e, ao
+//      concluir, envia tudo junto (empresa + admin) para POST /create
+//
+// Validação de campos (formato, tamanho, caracteres) foi extraída para
+// validation.js -- este arquivo cuida de máscaras, autocomplete e do
+// avanço para o próximo passo.
+
+const CHAVE_SESSION_EMPRESA = 'bion_cadastro_empresa';
+// Tempo de vida dos dados guardados no sessionStorage. Passado isso,
+// consideramos "velhos" (ex: aba esquecida aberta) e mandamos o
+// usuário reiniciar o passo 1 em vez de seguir com dados obsoletos.
+const TTL_SESSION_EMPRESA_MS = 30 * 60 * 1000; // 30 minutos
+
+import { exibirMensagem } from "../../shared/feedback.js";
+import { validarFormularioEmpresa, ligarValidacaoEmTempoReal } from "./enterpriseValidation.js";
+
+const URL_BASE_API = "http://127.0.0.1:5000/v1/api";
+
+// ── máscaras ─────────────────────────────────
+// CNES (Cadastro Nacional de Estabelecimentos de Saúde) é opcional e
+// numérico puro, 7 dígitos, sem pontuação nem dígito verificador --
+// diferente do CNPJ. Uma empresa pode ter os dois preenchidos.
+document.getElementById('cnes').addEventListener('input', function (e) {
+  e.target.value = e.target.value.replace(/\D/g, '').slice(0, 7);
+});
+
+document.getElementById('cnpj').addEventListener('input', function (e) {
+  let v = e.target.value.replace(/\D/g, '').slice(0, 14);
+  v = v.replace(/(\d{2})(\d)/, '$1.$2');
+  v = v.replace(/(\d{3})(\d)/, '$1.$2');
+  v = v.replace(/(\d{3})(\d)/, '$1/$2');
+  v = v.replace(/(\d{4})(\d{1,2})$/, '$1-$2');
+  e.target.value = v;
+});
+
+document.getElementById('cep').addEventListener('input', function (e) {
+  let v = e.target.value.replace(/\D/g, '').slice(0, 8);
+  v = v.replace(/(\d{5})(\d{1,3})$/, '$1-$2');
+  e.target.value = v;
+});
+
+// ── validação em tempo real (formato, tamanho, caracteres) ───
+ligarValidacaoEmTempoReal();
+
+// ── autopreenchimento (estruturado, não ligado ainda) ────────────
+//
+// Os dois hooks abaixo já disparam no momento certo (CNPJ completo /
+// CEP completo) e já têm o esqueleto de loading state + preenchimento
+// de campo, mas a chamada de API real fica pendente -- falta decidir
+// qual serviço usar (BrasilAPI, ReceitaWS para CNPJ; ViaCEP para CEP)
+// e ajustar tratamento de erro (CNPJ/CEP não encontrado, rate limit).
+
+function setFieldLoading(fieldId, isLoading) {
+  const field = document.getElementById(fieldId).closest('.field');
+  field.classList.toggle('is-loading', isLoading);
+}
+
+async function buscarDadosCnpj(cnpjLimpo) {
+  setFieldLoading('cnpj', true);
+  try {
+    const resp = await fetch(`https://brasilapi.com.br/api/cnpj/v1/${cnpjLimpo}`);
+
+    if (!resp.ok) {
+      // 404: CNPJ não encontrado na base. 429: rate limit da BrasilAPI.
+      // Em ambos os casos não bloqueamos o cadastro -- razão social
+      // continua editável manualmente.
+      console.warn(`Consulta de CNPJ retornou status ${resp.status}`);
+      return;
+    }
+
+    const dados = await resp.json();
+    const razaoSocialInput = document.getElementById('razao_social');
+
+    // Só preenche se o usuário ainda não tiver digitado nada -- não
+    // sobrescreve edição manual já feita.
+    if (razaoSocialInput.value.trim().length === 0) {
+      razaoSocialInput.value = dados.razao_social || '';
+    }
+  } catch (erro) {
+    console.error('Erro ao consultar CNPJ:', erro);
+    // Falha de rede/parse não deve bloquear o cadastro -- razão social
+    // continua editável manualmente.
+  } finally {
+    setFieldLoading('cnpj', false);
+  }
+}
+
+async function buscarDadosCep(cepLimpo) {
+  setFieldLoading('cep', true);
+  try {
+    const resp = await fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`);
+
+    if (!resp.ok) {
+      console.warn(`Consulta de CEP retornou status ${resp.status}`);
+      return;
+    }
+
+    const dados = await resp.json();
+
+    // ViaCEP responde 200 mesmo para CEP inexistente, sinalizando via
+    // { erro: true } no corpo -- por isso o check é no JSON, não no status.
+    if (dados.erro) {
+      console.warn('CEP não encontrado na base do ViaCEP');
+      return;
+    }
+
+    const bairroInput = document.getElementById('bairro');
+    if (bairroInput.value.trim().length === 0) {
+      bairroInput.value = dados.bairro || '';
+    }
+  } catch (erro) {
+    console.error('Erro ao consultar CEP:', erro);
+  } finally {
+    setFieldLoading('cep', false);
+  }
+}
+
+document.getElementById('cnpj').addEventListener('input', function () {
+  const digits = this.value.replace(/\D/g, '');
+  if (digits.length === 14) buscarDadosCnpj(digits);
+});
+
+document.getElementById('cep').addEventListener('input', function () {
+  const digits = this.value.replace(/\D/g, '');
+  if (digits.length === 8) buscarDadosCep(digits);
+});
+
+// ── checagem de identificador já cadastrado ───
+// Consulta o backend (sem persistir nada) para saber se este
+// CNPJ/CNES já pertence a outra empresa. Retorna true/false/null:
+//   true  -> identificador já existe
+//   false -> livre
+//   null  -> não foi possível checar (erro de rede) -- não bloqueia
+//            o avanço, já que a validação definitiva ocorre de
+//            qualquer forma no POST /create do passo 2.
+//
+// NOTA: a rota abaixo assume um endpoint genérico por tipo, espelhando
+// EmpresaIdentificador (tipo_identificador + valor). Se o backend só
+// tiver /empresa/existe-cnpj/<cnpj> hoje (sem equivalente para CNES),
+// isso precisa de uma rota nova ou ajuste aqui -- sinalizar antes de
+// integrar de verdade.
+async function identificadorJaCadastrado(tipo, valorLimpo) {
+  try {
+    const resp = await fetch(`${URL_BASE_API}/empresa/existe-identificador/${tipo}/${valorLimpo}`);
+    if (!resp.ok) {
+      console.warn(`Checagem de ${tipo.toUpperCase()} retornou status ${resp.status}`);
+      return null;
+    }
+    const corpo = await resp.json();
+    // formato esperado: { data: { existe: true|false }, ... } (json_success)
+    return Boolean(corpo?.data?.existe);
+  } catch (erro) {
+    console.error(`Erro ao checar ${tipo.toUpperCase()} existente:`, erro);
+    return null;
+  }
+}
+
+// ── avanço para o passo 2 ─────────────────────
+document.getElementById('form-empresa').addEventListener('submit', async function (e) {
+  e.preventDefault();
+
+  // Portão de validação: nada acontece se qualquer campo estiver fora
+  // do formato/tamanho/caracteres esperado.
+  if (!validarFormularioEmpresa()) {
+    exibirMensagem('Corrija os campos destacados antes de continuar.', 'erro');
+    return;
+  }
+
+  const cnpjLimpo = document.getElementById('cnpj').value.replace(/\D/g, '');
+  const cnesLimpo = document.getElementById('cnes').value.replace(/\D/g, '');
+  const botao = this.querySelector('.btn-primary');
+  botao.disabled = true;
+
+  try {
+    const cnpjExiste = await identificadorJaCadastrado('cnpj', cnpjLimpo);
+    if (cnpjExiste === true) {
+      exibirMensagem('Este CNPJ já está cadastrado.', 'erro');
+      return;
+    }
+
+    // CNES é opcional -- só checa se foi preenchido.
+    if (cnesLimpo.length > 0) {
+      const cnesExiste = await identificadorJaCadastrado('cnes', cnesLimpo);
+      if (cnesExiste === true) {
+        exibirMensagem('Este CNES já está cadastrado.', 'erro');
+        return;
+      }
+    }
+    // false (livre) ou null (checagem indisponível) em qualquer um dos
+    // dois -> segue o fluxo; a validação definitiva ocorre no POST /create.
+
+    const dadosEmpresa = {
+      cnpj: document.getElementById('cnpj').value,
+      cnes: cnesLimpo.length > 0 ? document.getElementById('cnes').value : null,
+      nome_fantasia: document.getElementById('nome_fantasia').value.trim(),
+      razao_social: document.getElementById('razao_social').value.trim() || null,
+      cep: document.getElementById('cep').value,
+      bairro: document.getElementById('bairro').value.trim(),
+      numero: document.getElementById('numero').value.trim(),
+      complemento: document.getElementById('complemento').value.trim() || null,
+      plano: document.querySelector('input[name="plano"]:checked').value,
+    };
+
+    // Guarda os dados da empresa para o passo 2 recuperar e enviar
+    // tudo junto (empresa + admin) em POST /empresa/create. Inclui um
+    // timestamp para o passo 2 poder descartar dados velhos (TTL).
+    sessionStorage.setItem(CHAVE_SESSION_EMPRESA, JSON.stringify({
+      dados: dadosEmpresa,
+      salvoEm: Date.now(),
+    }));
+
+    window.location.href = '/html/pages/user/admin/adminRegistration.html';
+  } finally {
+    botao.disabled = false;
+  }
+});

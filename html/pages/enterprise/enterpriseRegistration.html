@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>B-íon AI — Cadastrar empresa</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="/css/pages/user/admin/registration.css"/>
+</head>
+<body>
+
+<canvas id="c"></canvas>
+
+<div class="card">
+
+  <div class="logo">
+    <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="14" cy="14" r="2.3" fill="#fff"/>
+      <ellipse cx="14" cy="14" rx="11" ry="4.8" stroke="#fff" stroke-width=".8" opacity=".3" transform="rotate(-35 14 14)"/>
+      <ellipse cx="14" cy="14" rx="11" ry="4.8" stroke="#fff" stroke-width=".8" opacity=".3" transform="rotate(85 14 14)"/>
+      <circle cx="25" cy="14" r="1.4" fill="#fff" opacity=".6"/>
+      <circle cx="6"  cy="11" r="1.4" fill="#fff" opacity=".6"/>
+    </svg>
+    <span class="logo-text">B-íon AI</span>
+  </div>
+
+  <!-- Passo 1 de 2 -- página distinta do cadastro de admin, não uma
+       seção com hidden. O estado "ativo/done" é fixo no HTML de cada
+       página porque não há como um JS compartilhado alternar entre
+       páginas diferentes. -->
+  <div class="page-steps" aria-hidden="true">
+    <span class="page-step active"><span class="num">1</span> Empresa</span>
+    <span class="step-connector"></span>
+    <span class="page-step"><span class="num">2</span> Administrador</span>
+  </div>
+
+  <h1>Cadastre sua empresa</h1>
+  <p class="sub">Primeiro acesso — configure a conta da instituição</p>
+
+  <form id="form-empresa" method="post" action="#" novalidate>
+
+    <div class="section-label">Dados da empresa</div>
+
+    <div class="row-2">
+      <div class="field">
+        <label for="cnpj">CNPJ</label>
+        <input type="text" id="cnpj" name="cnpj" placeholder="00.000.000/0000-00" inputmode="numeric" maxlength="18" required/>
+        <div class="field-spinner" aria-hidden="true"></div>
+        <div class="hint" id="hint-cnpj">Consultamos automaticamente a razão social pelo CNPJ</div>
+        <div class="error-msg" id="err-cnpj"></div>
+      </div>
+      <div class="field">
+        <label for="cnes">CNES <span style="opacity:.6">(opcional)</span></label>
+        <input type="text" id="cnes" name="cnes" placeholder="0000000" inputmode="numeric" maxlength="7"/>
+        <div class="error-msg" id="err-cnes"></div>
+      </div>
+    </div>
+
+    <div class="row-2">
+      <div class="field">
+        <label for="nome_fantasia">Nome fantasia</label>
+        <input type="text" id="nome_fantasia" name="nome_fantasia" placeholder="Nome comercial da empresa" maxlength="255" required/>
+        <div class="error-msg" id="err-nome_fantasia"></div>
+      </div>
+      <div class="field">
+        <label for="razao_social">Razão social <span style="opacity:.6">(opcional)</span></label>
+        <input type="text" id="razao_social" name="razao_social" placeholder="Preenchido automaticamente pelo CNPJ, se disponível" maxlength="255"/>
+        <div class="error-msg" id="err-razao_social"></div>
+      </div>
+    </div>
+
+    <div class="section-label">Endereço</div>
+
+    <div class="row-endereco">
+      <div class="field">
+        <label for="cep">CEP</label>
+        <input type="text" id="cep" name="cep" placeholder="00000-000" inputmode="numeric" maxlength="9" required/>
+        <div class="field-spinner" aria-hidden="true"></div>
+        <div class="error-msg" id="err-cep"></div>
+      </div>
+      <div class="field">
+        <label for="bairro">Bairro</label>
+        <input type="text" id="bairro" name="bairro" placeholder="Preenchido pelo CEP, se disponível" maxlength="100" required/>
+        <div class="error-msg" id="err-bairro"></div>
+      </div>
+      <div class="field">
+        <label for="numero">Número</label>
+        <input type="text" id="numero" name="numero" placeholder="000" inputmode="numeric" maxlength="10" required/>
+        <div class="error-msg" id="err-numero"></div>
+      </div>
+      <div class="field">
+        <label for="complemento">Complemento <span style="opacity:.6">(opc.)</span></label>
+        <input type="text" id="complemento" name="complemento" placeholder="Sala, bloco..." maxlength="150"/>
+      </div>
+    </div>
+
+    <div class="section-label">Plano</div>
+
+    <div class="plan-options">
+      <div class="plan-option">
+        <input type="radio" id="plano-basico" name="plano" value="basico" checked/>
+        <label for="plano-basico">
+          <div class="plan-name">Básico</div>
+          <div class="plan-desc">Para começar</div>
+        </label>
+      </div>
+      <div class="plan-option">
+        <input type="radio" id="plano-profissional" name="plano" value="profissional"/>
+        <label for="plano-profissional">
+          <div class="plan-name">Profissional</div>
+          <div class="plan-desc">Uso contínuo</div>
+        </label>
+      </div>
+      <div class="plan-option">
+        <input type="radio" id="plano-enterprise" name="plano" value="enterprise"/>
+        <label for="plano-enterprise">
+          <div class="plan-name">Enterprise</div>
+          <div class="plan-desc">Grande escala</div>
+        </label>
+      </div>
+    </div>
+
+    <button type="submit" class="btn-primary">CONTINUAR</button>
+  </form>
+
+  <div id="mensagemFeedback" role="status" aria-live="polite"></div>
+
+  <p class="footer">Já tem uma conta? <a href="/html/pages/auth/login.html">Entrar</a></p>
+</div>
+
+<script type="module" src="/js/shared/particles.js"></script>
+<script type="module" src="/js/shared/feedback.js"></script>
+<script type="module" src="/js/pages/enterprise/enterpriseRegistration.js"></script>
+</body>
+</html>

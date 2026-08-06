@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Primeiro acesso — Bion</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/css/pages/auth/auth.css"/>
+</head>
+<body>
+
+<canvas id="c"></canvas>
+
+<div class="card">
+
+  <div class="logo">
+    <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="14" cy="14" r="2.3" fill="#fff"/>
+      <ellipse cx="14" cy="14" rx="11" ry="4.8" stroke="#fff" stroke-width=".8" opacity=".3" transform="rotate(-35 14 14)"/>
+      <ellipse cx="14" cy="14" rx="11" ry="4.8" stroke="#fff" stroke-width=".8" opacity=".3" transform="rotate(85 14 14)"/>
+      <circle cx="25" cy="14" r="1.4" fill="#fff" opacity=".6"/>
+      <circle cx="6"  cy="11" r="1.4" fill="#fff" opacity=".6"/>
+    </svg>
+    <span class="logo-text">B-íon AI</span>
+  </div>
+
+  <div class="steps" aria-hidden="true">
+    <span class="step-dot" id="dot-1"></span>
+    <span class="step-dot" id="dot-2"></span>
+  </div>
+
+  <section id="passo-senha">
+    <h1>Defina sua senha</h1>
+    <p class="sub">Passo 1 de 2</p>
+    <form id="form-senha" method="post" action="#">
+      <div class="field">
+        <label for="senha">Nova senha</label>
+        <input type="password" id="senha" name="senha" required autocomplete="new-password" />
+      </div>
+      <button class="btn-primary" type="submit">Continuar</button>
+    </form>
+  </section>
+
+  <section id="passo-webauthn" hidden>
+    <h1>Cadastre seu dispositivo</h1>
+    <p class="sub">Passo 2 de 2</p>
+    <p class="hint">Por segurança, é obrigatório cadastrar um método de confirmação de identidade (chave de segurança, biometria ou PIN do dispositivo).</p>
+    <button id="btn-cadastrar-webauthn" class="btn-primary" type="button">Cadastrar dispositivo</button>
+  </section>
+
+  <div id="mensagemFeedback" role="status" aria-live="polite"></div>
+
+</div>
+
+<script type="module" src="/js/shared/particles.js"></script>
+<script type="module" src="/js/shared/feedback.js"></script>
+<script type="module" src="/js/pages/auth/logic/onboarding.js"></script>
+</body>
+</html>

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>B-íon — Plataforma Brasileira de Apoio à Decisão Clínica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../../../css/pages/home/styles.css"/>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">B-íon</a>
+  <ul class="nav-links">
+    <li><a href="#quem-somos">Quem Somos</a></li>
+    <li><a href="#introducao">A Plataforma</a></li>
+    <li><a href="#problema">O Problema</a></li>
+    <li><a href="#proposta">Solução</a></li>
+    <li><a href="#impacto">Impacto</a></li>
+    <li><a href="#equipe">Equipe</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="../auth/login.html" class="nav-login">Entrar</a>
+    <a href="../user/admin/adminRegistration.html" class="nav-cta">Junte-se a nós</a>
+  </div>
+  <div class="nav-hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <canvas id="particles-canvas" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas>
+  <div class="bg-glow glow-1"></div>
+  <div class="bg-glow glow-2"></div>
+  <div class="hero-grid">
+    <div class="hero-left">
+      <div class="hero-badge"><div class="dot"></div>Plataforma Brasileira de CDSS</div>
+      <h1>B-íon<span class="tagline-word"><span id="typewriter"></span><span class="cursor">|</span></span></h1>
+      <p class="hero-subtitle">Apoio à triagem e classificação de risco para profissionais de saúde, integrando protocolos validados e IA explicável — pensada para a realidade do Brasil.</p>
+      <div class="hero-actions">
+        <a href="#introducao" class="btn-primary">Conhecer a Plataforma</a>
+        <a href="#quem-somos" class="btn-ghost">Quem Somos</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-card">
+        <div class="card-label">Triagem Simultânea</div>
+        <div class="card-proto">Manchester · NEWS2 · PCDT</div>
+        <div class="card-proto-sub">Protocolos executados e comparados em tempo real</div>
+        <div class="hero-metrics">
+          <div class="metric-item">
+            <div class="metric-val">32%</div>
+            <div class="metric-lbl">taxa de undertriage em urgências</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-val">35%</div>
+            <div class="metric-lbl">crescimento anual do mercado CDSS</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-val">4bi+</div>
+            <div class="metric-lbl">procedimentos SUS por ano</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-val">100%</div>
+            <div class="metric-lbl">auditável e explicável</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- QUEM SOMOS -->
+<section id="quem-somos">
+  <div class="inner">
+    <div>
+      <div class="section-tag">Quem Somos</div>
+      <h2 class="section-title">Tecnologia clínica feita no Brasil, para o Brasil</h2>
+      <div class="values-grid">
+        <div class="value-card"><div class="value-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 5-3.5 7.5-7 9-3.5-1.5-7-4-7-9V6l7-3z"/></svg></div><div class="value-name">Segurança em Primeiro Lugar</div><div class="value-desc">Cada decisão do sistema prioriza a integridade clínica do paciente, sem concessões.</div></div>
+        <div class="value-card"><div class="value-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="20" y1="20" x2="15.5" y2="15.5"/></svg></div><div class="value-name">Explicabilidade como Obrigação</div><div class="value-desc">Todo resultado é acompanhado de justificativa clara, rastreável e auditável.</div></div>
+        <div class="value-card"><div class="value-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6"/></svg></div><div class="value-name">O Profissional Decide</div><div class="value-desc">A IA apoia. A decisão final é sempre e exclusivamente do profissional de saúde.</div></div>
+        <div class="value-card"><div class="value-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 4V3a1 1 0 011-1h4a1 1 0 011 1v1"/><line x1="9" y1="10" x2="15" y2="10"/><line x1="9" y1="14" x2="15" y2="14"/></svg></div><div class="value-name">Transparência Total</div><div class="value-desc">Capacidades e limitações declaradas com clareza — sem promessas além do que entregamos.</div></div>
+      </div>
+    </div>
+    <div class="qs-right">
+      <p>A B-íon é um projeto vinculado ao <strong style="color:var(--white)">Colégio Cotemig</strong>, desenvolvido como documento técnico-estratégico e educacional (2025–2026). Nossa missão é melhorar os sistemas de saúde brasileiros por meio do apoio à decisão clínica, com foco em triagens mais seguras e maior segurança para pacientes e profissionais.</p>
+      <p>Nosso diferencial é unir múltiplos protocolos clínicos, diretrizes do Ministério da Saúde e IA explicável em uma única plataforma pensada para a heterogeneidade dos hospitais brasileiros — inclusive em regiões com conectividade limitada.</p>
+      <p>Acreditamos que tecnologia em saúde regulada exige mais do que precisão técnica: exige responsabilidade, rastreabilidade e respeito ao protagonismo do profissional de saúde.</p>
+      <div class="cotemig-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M12 4L2 9l10 5 10-5-10-5z"/><path d="M6 11.5V17c0 1 2.5 2.5 6 2.5s6-1.5 6-2.5v-5.5"/></svg><span>Projeto vinculado ao Colégio Cotemig · 2025–2026</span></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- INTRODUÇÃO -->
+<section id="introducao">
+  <div class="inner">
+    <div class="intro-hero-text">
+      <div class="section-tag">A Plataforma</div>
+      <h2 class="section-title">Como a B-íon funciona</h2>
+      <p class="lead">Uma plataforma de apoio à decisão clínica que integra protocolos validados, diretrizes oficiais e IA explicável — sem substituir o julgamento clínico do profissional.</p>
+    </div>
+    <div class="protocol-flow">
+      <div class="flow-step"><div class="flow-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h10a1 1 0 011 1v16a1 1 0 01-1 1H7a1 1 0 01-1-1V4a1 1 0 011-1z"/><line x1="12" y1="9" x2="12" y2="15"/><line x1="9" y1="12" x2="15" y2="12"/></svg></div><div class="flow-label">Dados do Paciente</div><div class="flow-sub">Entrada clínica estruturada</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="flow-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="20" x2="5" y2="12"/><line x1="12" y1="20" x2="12" y2="6"/><line x1="19" y1="20" x2="19" y2="15"/></svg></div><div class="flow-label">Protocolos</div><div class="flow-sub">Manchester, NEWS2, PCDTs</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="flow-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="3" x2="12" y2="19"/><line x1="4" y1="7" x2="20" y2="7"/><path d="M4 7l-2.5 6a2.5 2.5 0 005 0L4 7z"/><path d="M20 7l-2.5 6a2.5 2.5 0 005 0L20 7z"/><line x1="8" y1="21" x2="16" y2="21"/></svg></div><div class="flow-label">Comparação</div><div class="flow-sub">Divergências viram alertas</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="flow-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="7" width="10" height="10" rx="1.5"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/></svg></div><div class="flow-label">IA Explicável</div><div class="flow-sub">Linguagem natural, nunca decide</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="flow-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6"/></svg></div><div class="flow-label">Profissional</div><div class="flow-sub">Decisão final sempre humana</div></div>
+    </div>
+    <div class="intro-note">
+      <div class="intro-note-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg></div>
+      <p>Toda a arquitetura foi pensada para a realidade do Brasil — considerando a heterogeneidade dos hospitais e as limitações de conectividade no interior. <strong>Se a IA falhar, o sistema continua funcionando normalmente com os protocolos.</strong> A segurança do paciente nunca depende da camada de IA.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- PROBLEMA -->
+<section id="problema" style="background:var(--bg-2)">
+  <div class="inner">
+    <div class="section-tag">O Problema</div>
+    <h2 class="section-title">Erros de triagem têm consequências reais</h2>
+    <div class="problem-layout">
+      <div class="problem-text">
+        <p>Entre <strong style="color:var(--white)">10% e 15%</strong> dos diagnósticos em serviços de urgência apresentam algum erro — por omissão, atraso ou classificação incorreta da gravidade clínica.</p>
+        <p>O <em>undertriage</em> — quando o paciente recebe prioridade menor do que precisa — pode ocorrer em até <strong style="color:var(--white)">32% dos casos</strong>, sendo ainda mais comum em apresentações atípicas, como infarto em idosos diabéticos ou sepse em imunossuprimidos.</p>
+        <p>Soma-se a isso a variabilidade entre profissionais na aplicação dos protocolos e a falta de acesso integrado às diretrizes oficiais durante o atendimento, dificultando tanto a melhoria dos serviços quanto a defesa jurídica em casos de questionamento.</p>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-card">
+          <div class="stat-num">10–15%</div>
+          <div class="stat-info"><div class="stat-title">Erros diagnósticos em urgências</div><div class="stat-desc">Por omissão, atraso ou classificação incorreta de gravidade</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">32%</div>
+          <div class="stat-info"><div class="stat-title">Taxa máxima de undertriage</div><div class="stat-desc">Pacientes recebendo prioridade menor do que necessitam</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" style="font-size:1.4rem">↑ Risco</div>
+          <div class="stat-info"><div class="stat-title">Risco ampliado em apresentações atípicas</div><div class="stat-desc">Infarto em idosos diabéticos, sepse em imunossuprimidos — casos subdiagnosticados com maior frequência</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- PROPOSTA -->
+<section id="proposta">
+  <div class="inner">
+    <div class="proposta-header">
+      <div>
+        <div class="section-tag">Proposta de Resolução</div>
+        <h2 class="section-title">A divergência entre<br>protocolos como aliada</h2>
+      </div>
+      <p class="proposta-intro-text">A implementação segue um <strong style="color:var(--white)">roadmap por fases</strong>, começando pelos protocolos de triagem e avançando progressivamente até um ecossistema completo — respeitando a maturação das equipes.</p>
+    </div>
+
+    <!-- 4 feature cards top -->
+    <div class="proposta-cards">
+      <div class="proposta-card" data-n="01">
+        <div class="proposta-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg></div>
+        <div class="proposta-card-title">Execução Simultânea</div>
+        <div class="proposta-card-desc">Manchester, NEWS2 e PCDTs rodando ao mesmo tempo, resultados comparados automaticamente.</div>
+      </div>
+      <div class="proposta-card" data-n="02">
+        <div class="proposta-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9a6 6 0 0112 0v5l2 3H4l2-3V9z"/><path d="M10 20a2 2 0 004 0"/></svg></div>
+        <div class="proposta-card-title">Divergência como Alerta</div>
+        <div class="proposta-card-desc">Quando protocolos discordam, o sistema gera alerta — esses são exatamente os casos de maior risco.</div>
+      </div>
+      <div class="proposta-card" data-n="03">
+        <div class="proposta-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 5-3.5 7.5-7 9-3.5-1.5-7-4-7-9V6l7-3z"/></svg></div>
+        <div class="proposta-card-title">Classificação Mais Restritiva</div>
+        <div class="proposta-card-desc">A regra é adotar sempre a maior gravidade identificada. O sistema nunca reduz o risco. Nunca.</div>
+      </div>
+      <div class="proposta-card" data-n="04">
+        <div class="proposta-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="7" width="10" height="10" rx="1.5"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/></svg></div>
+        <div class="proposta-card-title">IA Explica, Protocolo Decide</div>
+        <div class="proposta-card-desc">A IA gera explicação em linguagem natural. Se falhar, o sistema segue — a segurança não depende dela.</div>
+      </div>
+    </div>
+
+    <!-- Roadmap horizontal -->
+    <div class="proposta-roadmap">
+      <div class="proposta-roadmap-label">Roadmap de implementação</div>
+      <div class="proposta-roadmap-track">
+        <div class="proposta-roadmap-line"></div>
+        <div class="proposta-phase">
+          <div class="proposta-phase-dot"></div>
+          <div class="proposta-phase-tag">Fase 1</div>
+          <div class="proposta-phase-name">Protocolos de triagem</div>
+          <div class="proposta-phase-desc">Manchester & NEWS2 com comparação automática</div>
+        </div>
+        <div class="proposta-phase">
+          <div class="proposta-phase-dot"></div>
+          <div class="proposta-phase-tag">Fase 2</div>
+          <div class="proposta-phase-name">Diretrizes oficiais</div>
+          <div class="proposta-phase-desc">PCDTs do Ministério da Saúde integrados</div>
+        </div>
+        <div class="proposta-phase">
+          <div class="proposta-phase-dot"></div>
+          <div class="proposta-phase-tag">Fase 3</div>
+          <div class="proposta-phase-name">Camada de IA</div>
+          <div class="proposta-phase-desc">Explicações em linguagem natural sobre classificações</div>
+        </div>
+        <div class="proposta-phase">
+          <div class="proposta-phase-dot"></div>
+          <div class="proposta-phase-tag">Fase 4</div>
+          <div class="proposta-phase-name">Plataforma completa</div>
+          <div class="proposta-phase-desc">Auditoria, rastreabilidade e integração hospitalar</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- IMPACTO -->
+<section id="impacto" style="background:var(--bg-2)">
+  <div class="inner">
+    <div class="section-tag">Impacto Financeiro e Social</div>
+    <h2 class="section-title">Uma lacuna estratégica no maior sistema de saúde da América Latina</h2>
+    <div class="impacto-layout">
+      <div class="impacto-text">
+        <p>O SUS realiza mais de <strong style="color:var(--white)">4 bilhões de procedimentos por ano</strong> e atende cerca de 215 milhões de pessoas, mas opera com subfinanciamento crônico: o Brasil investe apenas <strong style="color:var(--white)">3,9% do PIB</strong> em saúde pública, contra 6% na média da OCDE.</p>
+        <p>No mercado de tecnologia, o segmento de CDSS e triagem clínica no Brasil ainda é pequeno (cerca de <strong style="color:var(--white)">US$ 150 milhões</strong>), mas cresce mais de 35% ao ano — representando uma lacuna estratégica importante, com alta demanda e baixa oferta qualificada.</p>
+        <p>O impacto esperado da B-íon inclui <strong style="color:var(--white)">menos erros de classificação</strong>, identificação mais precoce de deterioração clínica e <strong style="color:var(--white)">economia para hospitais</strong> ao evitar internações que poderiam ter sido prevenidas.</p>
+      </div>
+      <div>
+        <div class="impact-grid">
+          <div class="impact-card"><div class="impact-big">4bi+</div><div class="impact-label">Procedimentos SUS por ano</div></div>
+          <div class="impact-card"><div class="impact-big">215M</div><div class="impact-label">Pessoas atendidas pelo SUS anualmente</div></div>
+          <div class="impact-card"><div class="impact-big">3,9%</div><div class="impact-label">do PIB em saúde pública — abaixo da média OCDE (6%)</div></div>
+          <div class="impact-card"><div class="impact-big">+35%</div><div class="impact-label">Crescimento anual do mercado CDSS no Brasil</div></div>
+          <div class="impact-card full"><div class="impact-big" style="font-size:1.5rem">US$ 150M — mercado em expansão</div><div class="impact-label">Segmento CDSS/triagem no Brasil com demanda represada e oferta qualificada escassa. Alta barreira de entrada, baixa concorrência especializada.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- EQUIPE -->
+<section id="equipe">
+  <div class="inner">
+    <div class="section-tag">A Equipe</div>
+    <h2 class="section-title">Quem está por trás do projeto</h2>
+    <p class="lead" style="margin-bottom:0">Estudantes do Colégio Cotemig que desenvolveram a B-íon como projeto técnico-estratégico e educacional.</p>
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="team-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6"/></svg></div>
+        <div class="team-name">Augusto Tavares</div>
+        <div class="team-role">Colégio Cotemig</div>
+        <a href="https://www.linkedin.com/in/augusto-tavares-homem-de-almeida-05185534b/" target="_blank" class="team-linkedin">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+          LinkedIn
+        </a>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6"/></svg></div>
+        <div class="team-name">Pedro Sabino</div>
+        <div class="team-role">Colégio Cotemig</div>
+        <a href="https://www.linkedin.com/in/pedro-sabino-santos-machado/" target="_blank" class="team-linkedin">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+          LinkedIn
+        </a>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6"/></svg></div>
+        <div class="team-name">Sarah Falcone</div>
+        <div class="team-role">Colégio Cotemig</div>
+        <a href="https://www.linkedin.com/in/sarah-falcone-42994634b/" target="_blank" class="team-linkedin">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+          LinkedIn
+        </a>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6"/></svg></div>
+        <div class="team-name">Gustavo Henrique</div>
+        <div class="team-role">Colégio Cotemig</div>
+        <a href="" target="_blank" class="team-linkedin">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+          LinkedIn
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-brand">B-íon</div>
+    <div class="footer-note">Plataforma Brasileira de Apoio à Decisão Clínica</div>
+  </div>
+  <div style="text-align:right">
+    <div class="footer-note">Projeto vinculado ao Colégio Cotemig · 2025–2026</div>
+    <div class="footer-note">Documento técnico-estratégico e educacional</div>
+  </div>
+</footer>
+
+<script src="/js/pages/home/script.js"></script>
+</body>
+</html>

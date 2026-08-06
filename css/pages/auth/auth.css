@@ -1,0 +1,277 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── Tokens de paleta ─────────────────────────
+   Cores cruas do tema atual ("tech-dark"). Ao trocar de tema, só
+   este bloco muda — os tokens semânticos abaixo continuam iguais. */
+   
+:root {
+  --palette-black:       #000;
+  --palette-white:       #f0f0f0;
+  --palette-white-pure:  #fff;
+  --palette-gray-500:    #555;
+  --palette-gray-400:    #888;
+  --palette-white-a03:   rgba(255,255,255,0.03);
+  --palette-white-a04:   rgba(255,255,255,0.04);
+  --palette-white-a05:   rgba(255,255,255,0.05);
+  --palette-white-a08:   rgba(255,255,255,0.08);
+  --palette-white-a16:   rgba(255,255,255,0.16);
+  --palette-white-a26:   rgba(255,255,255,0.26);
+  --palette-card-bg:     rgba(10,10,10,0.82);
+}
+
+/* ── Tokens semânticos ────────────────────────
+   O que os componentes realmente consomem. Trocar de tema = apontar
+   estas variáveis para outra paleta, sem tocar no resto do CSS. */
+
+:root {
+  --bg:            var(--palette-black);
+  --card:          var(--palette-card-bg);
+  --border:        var(--palette-white-a08);
+  --border-hover:  var(--palette-white-a16);
+  --border-focus:  var(--palette-white-a26);
+  --text:          var(--palette-white);
+  --text-strong:   var(--palette-white-pure);
+  --muted:         var(--palette-gray-500);
+  --muted2:        var(--palette-gray-400);
+  --input-bg:      var(--palette-white-a03);
+  --input-bg-focus: var(--palette-white-a05);
+  --hover-bg:      var(--palette-white-a04);
+
+  --btn-bg:        var(--palette-white-pure);
+  --btn-text:      var(--palette-black);
+  --btn-bg-hover:  #e6e6e6;
+
+  --font-scale: 1;
+}
+
+html, body {
+  width: 100%; height: 100%;
+  min-height: 100vh;
+  background: var(--bg);
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+}
+
+/* ── Card ─────────────────────────────────── */
+.card {
+  position: relative;
+  z-index: 10;
+  width: min(390px, 90vw);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 44px 40px 38px;
+  backdrop-filter: blur(28px);
+  animation: rise .65s cubic-bezier(.22,1,.36,1) both;
+}
+@keyframes rise {
+  from { opacity:0; transform:translateY(18px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+/* ── Logo ─────────────────────────────────── */
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  margin-bottom: 30px;
+}
+.logo svg { width:26px; height:26px; }
+.logo-text {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: calc(.95rem * var(--font-scale));
+  letter-spacing: .2em;
+  color: var(--text-strong);
+}
+
+/* ── Headings ─────────────────────────────── */
+h1 {
+  font-size: calc(1.35rem * var(--font-scale));
+  font-weight: 600;
+  color: var(--text);
+  text-align: center;
+  letter-spacing: -.01em;
+  margin-bottom: 5px;
+}
+.sub {
+  text-align: center;
+  font-size: calc(.76rem * var(--font-scale));
+  color: var(--muted);
+  letter-spacing: .05em;
+  margin-bottom: 28px;
+}
+p.hint {
+  font-size: calc(.78rem * var(--font-scale));
+  color: var(--muted2);
+  text-align: center;
+  line-height: 1.5;
+  margin-bottom: 22px;
+}
+
+/* ── Google btn (login) ───────────────────── */
+.btn-google {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 11px;
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: calc(.85rem * var(--font-scale));
+  font-weight: 500;
+  letter-spacing: .02em;
+  cursor: pointer;
+  transition: border-color .2s, background .2s;
+}
+.btn-google:hover {
+  border-color: var(--border-hover);
+  background: var(--hover-bg);
+}
+
+/* ── Divider ──────────────────────────────── */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 18px 0;
+  color: var(--muted);
+  font-size: calc(.7rem * var(--font-scale));
+  letter-spacing: .1em;
+}
+.divider::before,.divider::after {
+  content:''; flex:1; height:1px;
+  background: var(--border);
+}
+
+/* ── Inputs ───────────────────────────────── */
+.field { margin-bottom: 10px; text-align: left; }
+.field label {
+  display: block;
+  font-size: calc(.76rem * var(--font-scale));
+  color: var(--muted2);
+  margin-bottom: 6px;
+}
+.field input {
+  width: 100%;
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 11px 14px;
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: calc(.86rem * var(--font-scale));
+  outline: none;
+  transition: border-color .2s, background .2s;
+}
+.field input::placeholder { color: var(--muted); }
+.field input:focus {
+  border-color: var(--border-focus);
+  background: var(--input-bg-focus);
+}
+
+/* ── Forgot ───────────────────────────────── */
+.forgot { text-align: right; margin: 4px 0 18px; }
+.forgot a {
+  font-size: calc(.74rem * var(--font-scale));
+  color: var(--muted2);
+  text-decoration: none;
+  transition: color .2s;
+}
+.forgot a:hover { color: var(--text-strong); }
+
+/* ── Primary btn (usado em ENTRAR, Continuar, Cadastrar dispositivo) */
+.btn-primary {
+  width: 100%;
+  background: var(--btn-bg);
+  border: none;
+  border-radius: 7px;
+  padding: 12px;
+  color: var(--btn-text);
+  font-family: 'Inter', sans-serif;
+  font-size: calc(.88rem * var(--font-scale));
+  font-weight: 600;
+  letter-spacing: .07em;
+  cursor: pointer;
+  transition: background .2s, transform .12s;
+}
+.btn-primary:hover  { background: var(--btn-bg-hover); }
+.btn-primary:active { transform: scale(.99); }
+.btn-primary:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+/* ── Footer ───────────────────────────────── */
+.footer {
+  text-align: center;
+  margin-top: 20px;
+  font-size: calc(.76rem * var(--font-scale));
+  color: var(--muted);
+}
+.footer a {
+  color: var(--muted2);
+  text-decoration: none;
+  transition: color .2s;
+}
+.footer a:hover { color: var(--text-strong); }
+
+/* ── Feedback ─────────────────────────────── */
+#mensagemFeedback {
+  text-align: center;
+  font-size: calc(.78rem * var(--font-scale));
+  margin-top: 14px;
+  min-height: 1em;
+}
+#mensagemFeedback.erro    { color: #ff6b6b; }
+#mensagemFeedback.sucesso { color: #6bffb0; }
+#mensagemFeedback.info    { color: var(--muted2); }
+
+/* ── Steps (onboarding) ───────────────────────
+   Indicador de progresso "Passo 1 de 2" / "Passo 2 de 2". */
+.steps {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+.steps .step-dot {
+  width: 26px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--border);
+  transition: background .3s;
+}
+.steps .step-dot.active { background: var(--text-strong); }
+.steps .step-dot.done   { background: var(--muted2); }
+
+/* ── Loading state (afterLogin) ────────────────
+   Spinner simples via CSS puro, sem lib/ícone externo. */
+.loading-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+.spinner {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  border-top-color: var(--text-strong);
+  animation: spin .8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
