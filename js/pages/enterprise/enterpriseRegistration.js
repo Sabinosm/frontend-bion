@@ -136,7 +136,7 @@ document.getElementById('cep').addEventListener('input', function () {
 //            qualquer forma no POST /create do passo 2.
 async function cnpjJaCadastrado(cnpjLimpo) {
   try {
-    const resp = await fetch(`${URL_BASE_API}/empresa/existe-cnpj/${cnpjLimpo}`);
+    const resp = await fetch(`${URL_BASE_API}/empresas/existe-cnpj/${cnpjLimpo}`);
     if (!resp.ok) {
       console.warn(`Checagem de CNPJ retornou status ${resp.status}`);
       return null;

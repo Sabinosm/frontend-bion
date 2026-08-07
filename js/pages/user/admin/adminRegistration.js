@@ -108,7 +108,7 @@ document.getElementById('form-admin').addEventListener('submit', async function 
     email: document.getElementById('email').value.trim(),
     telefone: document.getElementById('telefone').value || null,
     user_login: document.getElementById('user_login').value.trim(),
-    tipo_usuario: 'administrador',
+    tipo_usuario: 'admin',
     senha: document.getElementById('senha').value,
   };
 
@@ -116,7 +116,7 @@ document.getElementById('form-admin').addEventListener('submit', async function 
   botao.disabled = true;
 
   try {
-    const resp = await fetch(`${URL_BASE_API}/empresa/create`, {
+    const resp = await fetch(`${URL_BASE_API}/empresas/create`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ empresa: dadosEmpresa, admin: dadosAdmin }),
