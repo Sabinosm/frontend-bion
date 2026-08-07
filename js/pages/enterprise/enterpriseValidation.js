@@ -47,7 +47,8 @@ const REGRAS = {
     required: false,
     minLength: 2,
     maxLength: 255,
-    regex: /^[\p{L}\p{N}\s.,&\-'()]+$/u,
+    // inclui "/" para permitir formatos como "Empresa X S/A"
+    regex: /^[\p{L}\p{N}\s.,&\-'()/]+$/u,
   },
   cep: {
     label: 'o CEP',

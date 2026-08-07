@@ -20,19 +20,12 @@ const CHAVE_SESSION_EMPRESA = 'bion_cadastro_empresa';
 // usuário reiniciar o passo 1 em vez de seguir com dados obsoletos.
 const TTL_SESSION_EMPRESA_MS = 30 * 60 * 1000; // 30 minutos
 
-import { exibirMensagem } from "../../shared/feedback.js";
-import { validarFormularioEmpresa, ligarValidacaoEmTempoReal } from "./enterpriseValidation.js";
+import { exibirMensagem } from "../../../../shared/feedback.js";
+import { validarFormularioEmpresa, ligarValidacaoEmTempoReal } from "./validation.js";
 
 const URL_BASE_API = "http://127.0.0.1:5000/v1/api";
 
 // ── máscaras ─────────────────────────────────
-// CNES (Cadastro Nacional de Estabelecimentos de Saúde) é opcional e
-// numérico puro, 7 dígitos, sem pontuação nem dígito verificador --
-// diferente do CNPJ. Uma empresa pode ter os dois preenchidos.
-document.getElementById('cnes').addEventListener('input', function (e) {
-  e.target.value = e.target.value.replace(/\D/g, '').slice(0, 7);
-});
-
 document.getElementById('cnpj').addEventListener('input', function (e) {
   let v = e.target.value.replace(/\D/g, '').slice(0, 14);
   v = v.replace(/(\d{2})(\d)/, '$1.$2');
@@ -80,11 +73,10 @@ async function buscarDadosCnpj(cnpjLimpo) {
     const dados = await resp.json();
     const razaoSocialInput = document.getElementById('razao_social');
 
-    // Só preenche se o usuário ainda não tiver digitado nada -- não
-    // sobrescreve edição manual já feita.
-    if (razaoSocialInput.value.trim().length === 0) {
-      razaoSocialInput.value = dados.razao_social || '';
-    }
+    // Sempre atualiza quando o CNPJ é completado -- se o usuário trocar
+    // o CNPJ digitado, a razão social deve refletir o novo CNPJ, e não
+    // ficar travada no valor da consulta anterior.
+    razaoSocialInput.value = dados.razao_social || '';
   } catch (erro) {
     console.error('Erro ao consultar CNPJ:', erro);
     // Falha de rede/parse não deve bloquear o cadastro -- razão social
@@ -114,9 +106,9 @@ async function buscarDadosCep(cepLimpo) {
     }
 
     const bairroInput = document.getElementById('bairro');
-    if (bairroInput.value.trim().length === 0) {
-      bairroInput.value = dados.bairro || '';
-    }
+    // Sempre atualiza quando o CEP é completado, pelo mesmo motivo do
+    // CNPJ/razão social acima -- reflete o CEP atual, não o anterior.
+    bairroInput.value = dados.bairro || '';
   } catch (erro) {
     console.error('Erro ao consultar CEP:', erro);
   } finally {
@@ -134,32 +126,26 @@ document.getElementById('cep').addEventListener('input', function () {
   if (digits.length === 8) buscarDadosCep(digits);
 });
 
-// ── checagem de identificador já cadastrado ───
-// Consulta o backend (sem persistir nada) para saber se este
-// CNPJ/CNES já pertence a outra empresa. Retorna true/false/null:
-//   true  -> identificador já existe
-//   false -> livre
+// ── checagem de CNPJ já cadastrado ────────────
+// Consulta o backend (sem persistir nada) para saber se o CNPJ já
+// pertence a outra empresa. Retorna true/false/null:
+//   true  -> CNPJ já existe
+//   false -> CNPJ livre
 //   null  -> não foi possível checar (erro de rede) -- não bloqueia
 //            o avanço, já que a validação definitiva ocorre de
 //            qualquer forma no POST /create do passo 2.
-//
-// NOTA: a rota abaixo assume um endpoint genérico por tipo, espelhando
-// EmpresaIdentificador (tipo_identificador + valor). Se o backend só
-// tiver /empresa/existe-cnpj/<cnpj> hoje (sem equivalente para CNES),
-// isso precisa de uma rota nova ou ajuste aqui -- sinalizar antes de
-// integrar de verdade.
-async function identificadorJaCadastrado(tipo, valorLimpo) {
+async function cnpjJaCadastrado(cnpjLimpo) {
   try {
-    const resp = await fetch(`${URL_BASE_API}/empresa/existe-identificador/${tipo}/${valorLimpo}`);
+    const resp = await fetch(`${URL_BASE_API}/empresa/existe-cnpj/${cnpjLimpo}`);
     if (!resp.ok) {
-      console.warn(`Checagem de ${tipo.toUpperCase()} retornou status ${resp.status}`);
+      console.warn(`Checagem de CNPJ retornou status ${resp.status}`);
       return null;
     }
     const corpo = await resp.json();
     // formato esperado: { data: { existe: true|false }, ... } (json_success)
     return Boolean(corpo?.data?.existe);
   } catch (erro) {
-    console.error(`Erro ao checar ${tipo.toUpperCase()} existente:`, erro);
+    console.error('Erro ao checar CNPJ existente:', erro);
     return null;
   }
 }
@@ -176,31 +162,21 @@ document.getElementById('form-empresa').addEventListener('submit', async functio
   }
 
   const cnpjLimpo = document.getElementById('cnpj').value.replace(/\D/g, '');
-  const cnesLimpo = document.getElementById('cnes').value.replace(/\D/g, '');
   const botao = this.querySelector('.btn-primary');
   botao.disabled = true;
 
   try {
-    const cnpjExiste = await identificadorJaCadastrado('cnpj', cnpjLimpo);
-    if (cnpjExiste === true) {
+    const jaExiste = await cnpjJaCadastrado(cnpjLimpo);
+
+    if (jaExiste === true) {
       exibirMensagem('Este CNPJ já está cadastrado.', 'erro');
       return;
     }
-
-    // CNES é opcional -- só checa se foi preenchido.
-    if (cnesLimpo.length > 0) {
-      const cnesExiste = await identificadorJaCadastrado('cnes', cnesLimpo);
-      if (cnesExiste === true) {
-        exibirMensagem('Este CNES já está cadastrado.', 'erro');
-        return;
-      }
-    }
-    // false (livre) ou null (checagem indisponível) em qualquer um dos
-    // dois -> segue o fluxo; a validação definitiva ocorre no POST /create.
+    // jaExiste === false (livre) ou null (checagem indisponível) ->
+    // segue o fluxo; a validação definitiva ocorre no POST /create.
 
     const dadosEmpresa = {
       cnpj: document.getElementById('cnpj').value,
-      cnes: cnesLimpo.length > 0 ? document.getElementById('cnes').value : null,
       nome_fantasia: document.getElementById('nome_fantasia').value.trim(),
       razao_social: document.getElementById('razao_social').value.trim() || null,
       cep: document.getElementById('cep').value,
