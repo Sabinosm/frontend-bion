@@ -20,8 +20,8 @@ const CHAVE_SESSION_EMPRESA = 'bion_cadastro_empresa';
 // usuário reiniciar o passo 1 em vez de seguir com dados obsoletos.
 const TTL_SESSION_EMPRESA_MS = 30 * 60 * 1000; // 30 minutos
 
-import { exibirMensagem } from "../../../../shared/feedback.js";
-import { validarFormularioEmpresa, ligarValidacaoEmTempoReal } from "./validation.js";
+import { exibirMensagem } from "../../shared/feedback.js";
+import { validarFormularioEmpresa, ligarValidacaoEmTempoReal } from "./enterpriseValidation.js";
 
 const URL_BASE_API = "http://127.0.0.1:5000/v1/api";
 
