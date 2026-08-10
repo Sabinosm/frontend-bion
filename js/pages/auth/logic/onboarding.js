@@ -6,11 +6,10 @@
 //
 // Ordem forçada pelo backend: 1) definir senha, 2) cadastrar WebAuthn.
 // A UI segue a mesma ordem, mostrando um passo de cada vez.
-
-import { create } from "https://cdn.jsdelivr.net/npm/@github/webauthn-json@2.1.1/dist/esm/webauthn-json.browser-ponyfill.js";
+import { startRegistration } from "https://cdn.jsdelivr.net/npm/@simplewebauthn/browser@11/dist/bundle/index.js";
 import { exibirMensagem } from "../../../shared/feedback.js";
 
-const URL_BASE_API = "http://127.0.0.1:5000/v1/api";
+const URL_BASE_API = "http://localhost:5000/v1/api";
 
 const passoSenha = document.getElementById("passo-senha");
 const passoWebauthn = document.getElementById("passo-webauthn");
@@ -154,7 +153,7 @@ async function cadastrarWebauthn() {
 
   // create() (não get()): aqui é registro de credencial nova, não
   // autenticação com uma já existente.
-  const credencial = await create({ publicKey: options });
+  const credencial = await startRegistration({ optionsJSON: options });
 
   const respConcluir = await fetch(`${URL_BASE_API}/auth/onboarding/webauthn/concluir`, {
     method: "POST",

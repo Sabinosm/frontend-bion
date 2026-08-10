@@ -14,7 +14,7 @@
 import { confirmarSegundoFator } from "./webauthn.js";
 import { exibirMensagem } from "../../../shared/feedback.js";
 
-const URL_BASE_API = "http://127.0.0.1:5000/v1/api";
+const URL_BASE_API = "http://localhost:5000/v1/api";
 
 // pageshow dispara tanto no carregamento normal quanto quando a
 // página é restaurada do bfcache do navegador (ex.: botão "voltar"
@@ -35,7 +35,7 @@ async function tratarPosLogin() {
     });
 
     if (!resp.ok) {
-      // Sessão inválida/expirada -- volta para o login.
+      // Sessão inválida/expirada -- volta para o login.  
       window.location.href = "/html/pages/auth/login.html";
       return;
     }

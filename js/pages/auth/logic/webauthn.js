@@ -7,7 +7,7 @@
 
 import { get } from "https://cdn.jsdelivr.net/npm/@github/webauthn-json@2.1.1/dist/esm/webauthn-json.browser-ponyfill.js";
 
-const URL_BASE_API = "http://127.0.0.1:5000/v1/api";
+const URL_BASE_API = "http://localhost:5000/v1/api";
 
 /**
  * Executa o desafio WebAuthn de segundo fator: pede as opções ao
