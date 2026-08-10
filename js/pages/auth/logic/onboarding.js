@@ -110,7 +110,7 @@ botaoCadastrarWebauthn.addEventListener("click", async () => {
  * Lança erro com a mensagem do backend em caso de senha inválida.
  */
 async function definirSenha(senha) {
-  const resp = await fetch(`${URL_BASE_API}/onboarding/definir-senha`, {
+  const resp = await fetch(`${URL_BASE_API}/auth/onboarding/definir-senha`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
@@ -133,7 +133,7 @@ async function definirSenha(senha) {
  * envia a credencial nova para confirmação.
  */
 async function cadastrarWebauthn() {
-  const respIniciar = await fetch(`${URL_BASE_API}/onboarding/webauthn/iniciar`, {
+  const respIniciar = await fetch(`${URL_BASE_API}/auth/onboarding/webauthn/iniciar`, {
     method: "POST",
     credentials: "include",
   });
@@ -156,7 +156,7 @@ async function cadastrarWebauthn() {
   // autenticação com uma já existente.
   const credencial = await create({ publicKey: options });
 
-  const respConcluir = await fetch(`${URL_BASE_API}/onboarding/webauthn/concluir`, {
+  const respConcluir = await fetch(`${URL_BASE_API}/auth/onboarding/webauthn/concluir`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
