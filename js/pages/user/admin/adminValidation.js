@@ -176,10 +176,18 @@ function validateSenhaField() {
     setError('senha', 'Deve ter entre 8 e 50 caracteres');
     return false;
   }
-  if (!/[A-Za-zÀ-ÖØ-öø-ÿ]/.test(senha)) {
+  // 1. Valida se tem ao menos 1 letra (maiúscula ou minúscula, incluindo acentuadas)
+  if (!/[a-zA-ZÀ-ÖØ-öø-ÿ]/.test(senha)) {
     setError('senha', 'Deve conter ao menos 1 letra');
     return false;
   }
+
+  // 2. Valida se tem ao menos 1 letra MAIÚSCULA (incluindo acentuadas maiúsculas)
+  if (!/[A-ZÀ-Ö]/.test(senha)) {
+    setError('senha', 'Deve conter ao menos 1 letra maiúscula');
+    return false;
+  }
+  
   if (!/\d/.test(senha)) {
     setError('senha', 'Deve conter ao menos 1 número');
     return false;
