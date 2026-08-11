@@ -14,6 +14,12 @@
 
   const ctx = canvas.getContext('2d');
 
+  // Cor das partículas via variável CSS (--particle-line / --particle-dot),
+  // formato "r, g, b". Se a página não definir, cai no cinza padrão.
+  const rootStyle = getComputedStyle(document.documentElement);
+  const LINE_RGB = (rootStyle.getPropertyValue('--particle-line').trim()) || '200, 200, 200';
+  const DOT_RGB  = (rootStyle.getPropertyValue('--particle-dot').trim())  || '200, 200, 200';
+
   let W, H;
   const COUNT       = 68;
   const LINK_DIST   = 145;
@@ -84,12 +90,12 @@
         const dy = nodes[i].y - nodes[j].y;
         const d  = Math.sqrt(dx * dx + dy * dy);
         if (d < LINK_DIST) {
-          const a = (1 - d / LINK_DIST) * 0.22;
+          const a = (1 - d / LINK_DIST) * 0.124;
           ctx.beginPath();
           ctx.moveTo(nodes[i].x, nodes[i].y);
           ctx.lineTo(nodes[j].x, nodes[j].y);
-          ctx.strokeStyle = `rgba(255,255,255,${a})`;
-          ctx.lineWidth   = 0.45;
+          ctx.strokeStyle = `rgba(${LINE_RGB},${a})`;
+          ctx.lineWidth   = 0.4;
           ctx.stroke();
         }
       }
@@ -99,7 +105,7 @@
     for (const n of nodes) {
       ctx.beginPath();
       ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(255,255,255,0.48)';
+      ctx.fillStyle = `rgba(${DOT_RGB},0.32)`;
       ctx.fill();
     }
 
