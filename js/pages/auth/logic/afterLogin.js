@@ -16,6 +16,8 @@ import { exibirMensagem } from "../../../shared/feedback.js";
 
 const URL_BASE_API = "http://localhost:5000/v1/api";
 
+const botaoTentarNovamente = document.getElementById("btn-tentar-novamente");
+
 // pageshow dispara tanto no carregamento normal quanto quando a
 // página é restaurada do bfcache do navegador (ex.: botão "voltar"
 // depois de já ter saído desta página). DOMContentLoaded sozinho não
@@ -23,6 +25,11 @@ const URL_BASE_API = "http://localhost:5000/v1/api";
 // sempre -- a checagem de status nunca era refeita.
 window.addEventListener("pageshow", async () => {
   await tratarPosLogin();
+});
+
+botaoTentarNovamente.addEventListener("click", async () => {
+  botaoTentarNovamente.hidden = true;
+  await tratarMfaPendente();
 });
 
 async function tratarPosLogin() {
@@ -83,5 +90,6 @@ async function tratarMfaPendente() {
       erro.message || "Não foi possível confirmar sua identidade. Tente novamente.",
       "erro"
     );
+    botaoTentarNovamente.hidden = false;
   }
 }

@@ -163,9 +163,9 @@ async function cadastrarWebauthn() {
   });
 
   if (!respConcluir.ok) {
-    const erroDados = await respConcluir.json().catch(() => ({}));
-    throw new Error(erroDados.erro || "Falha ao concluir o cadastro do dispositivo.");
-  }
+  const erroDados = await respConcluir.json().catch(() => ({}));
+  throw new Error(erroDados.detalhe || erroDados.erro || "Falha ao concluir o cadastro do dispositivo.");
+}
 
   return respConcluir.json();
 }

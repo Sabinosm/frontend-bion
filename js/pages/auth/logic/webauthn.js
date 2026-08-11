@@ -5,7 +5,7 @@
 // módulo não precisa conhecer navigator.credentials nem o formato das
 // opções — só chama confirmarSegundoFator() e trata o resultado.
 
-import { get } from "https://cdn.jsdelivr.net/npm/@github/webauthn-json@2.1.1/dist/esm/webauthn-json.browser-ponyfill.js";
+import { startAuthentication } from "https://cdn.jsdelivr.net/npm/@simplewebauthn/browser@11/dist/bundle/index.js";
 
 const URL_BASE_API = "http://localhost:5000/v1/api";
 
@@ -39,8 +39,7 @@ export async function confirmarSegundoFator() {
   // navigator.credentials.get() lança automaticamente se o usuário
   // cancelar o prompt (NotAllowedError) ou não houver autenticador
   // disponível -- deixamos propagar para quem chamou tratar.
-  const credencial = await get({ publicKey: options });
-
+  const credencial = await startAuthentication({ optionsJSON: options });
   const confirmResp = await fetch(`${URL_BASE_API}/webauthn/2fa/confirmar`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
