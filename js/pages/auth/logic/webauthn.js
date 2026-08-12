@@ -6,8 +6,7 @@
 // opções — só chama confirmarSegundoFator() e trata o resultado.
 
 import { startAuthentication } from "https://cdn.jsdelivr.net/npm/@simplewebauthn/browser@11/dist/bundle/index.js";
-
-const URL_BASE_API = "http://localhost:5000/v1/api";
+import { URL_BASE_API } from "../../../config.js";
 
 /**
  * Executa o desafio WebAuthn de segundo fator: pede as opções ao

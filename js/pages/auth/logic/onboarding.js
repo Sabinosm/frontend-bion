@@ -8,8 +8,7 @@
 // A UI segue a mesma ordem, mostrando um passo de cada vez.
 import { startRegistration } from "https://cdn.jsdelivr.net/npm/@simplewebauthn/browser@11/dist/bundle/index.js";
 import { exibirMensagem } from "../../../shared/feedback.js";
-
-const URL_BASE_API = "http://localhost:5000/v1/api";
+import { URL_BASE_API } from "../../../config.js";
 
 const passoSenha = document.getElementById("passo-senha");
 const passoWebauthn = document.getElementById("passo-webauthn");

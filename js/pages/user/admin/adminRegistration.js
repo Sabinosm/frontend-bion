@@ -15,8 +15,8 @@
 
 import { exibirMensagem } from "../../../shared/feedback.js";
 import { validarFormularioAdmin, ligarValidacaoEmTempoReal } from "./adminValidation.js";
+import { URL_BASE_API } from "../../../config.js";
 
-const URL_BASE_API = "http://localhost:5000/v1/api";
 const CHAVE_SESSION_EMPRESA = 'bion_cadastro_empresa';
 // Mesmo TTL usado em enterpriseRegistration.js -- dados mais velhos
 // que isso são tratados como obsoletos (ex: aba esquecida aberta).

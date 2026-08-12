@@ -13,8 +13,7 @@
 
 import { confirmarSegundoFator } from "./webauthn.js";
 import { exibirMensagem } from "../../../shared/feedback.js";
-
-const URL_BASE_API = "http://localhost:5000/v1/api";
+import { URL_BASE_API } from "../../../config.js";
 
 const botaoTentarNovamente = document.getElementById("btn-tentar-novamente");
 
