@@ -22,7 +22,7 @@ const TTL_SESSION_EMPRESA_MS = 30 * 60 * 1000; // 30 minutos
 
 import { exibirMensagem } from "../../shared/feedback.js";
 import { validarFormularioEmpresa, ligarValidacaoEmTempoReal } from "./enterpriseValidation.js";
-import { URL_BASE_API } from "../../../config.js";
+import { URL_BASE_API } from "../../config.js";
 
 // ── máscaras ─────────────────────────────────
 document.getElementById('cnpj').addEventListener('input', function (e) {
@@ -56,32 +56,69 @@ function setFieldLoading(fieldId, isLoading) {
   field.classList.toggle('is-loading', isLoading);
 }
 
+// Formata o CEP puro-dígitos vindo da BrasilAPI ("01311902") para o
+// mesmo formato que a máscara do campo produz ("01311-902"), já que
+// o input de CEP espera esse padrão (ver máscara no topo do arquivo).
+function formatarCep(cepBruto) {
+  const digits = String(cepBruto || '').replace(/\D/g, '').slice(0, 8);
+  if (digits.length !== 8) return '';
+  return digits.replace(/(\d{5})(\d{3})/, '$1-$2');
+}
+
+const CAMPOS_AUTOPREENCHIDOS_POR_CNPJ = [
+  'razao_social',
+  'nome_fantasia',
+  'bairro',
+  'numero',
+  'complemento',
+  'cep',
+];
+
 async function buscarDadosCnpj(cnpjLimpo) {
   setFieldLoading('cnpj', true);
+  CAMPOS_AUTOPREENCHIDOS_POR_CNPJ.forEach((id) => setFieldLoading(id, true));
   try {
     const resp = await fetch(`https://brasilapi.com.br/api/cnpj/v1/${cnpjLimpo}`);
 
     if (!resp.ok) {
       // 404: CNPJ não encontrado na base. 429: rate limit da BrasilAPI.
-      // Em ambos os casos não bloqueamos o cadastro -- razão social
-      // continua editável manualmente.
+      // Em ambos os casos não bloqueamos o cadastro -- os campos
+      // continuam editáveis manualmente.
       console.warn(`Consulta de CNPJ retornou status ${resp.status}`);
       return;
     }
 
     const dados = await resp.json();
-    const razaoSocialInput = document.getElementById('razao_social');
 
     // Sempre atualiza quando o CNPJ é completado -- se o usuário trocar
-    // o CNPJ digitado, a razão social deve refletir o novo CNPJ, e não
-    // ficar travada no valor da consulta anterior.
-    razaoSocialInput.value = dados.razao_social || '';
+    // o CNPJ digitado, os campos abaixo devem refletir o novo CNPJ, e
+    // não ficar travados no valor da consulta anterior.
+    //
+    // Preenche todo campo do formulário que tem correspondente direto
+    // no retorno da BrasilAPI (mesmo conjunto de campos que já existe
+    // hoje -- nenhum campo novo foi criado na UI).
+    document.getElementById('razao_social').value = dados.razao_social || '';
+    document.getElementById('nome_fantasia').value = dados.nome_fantasia || '';
+    document.getElementById('bairro').value = dados.bairro || '';
+    document.getElementById('numero').value = dados.numero || '';
+    document.getElementById('complemento').value = dados.complemento || '';
+
+    // CEP: formata para o padrão da máscara do campo. Setar o campo
+    // via .value não dispara 'input', então o listener que aciona o
+    // ViaCEP não entra em conflito aqui -- o bairro já veio da própria
+    // BrasilAPI acima. Se o usuário editar o CEP manualmente depois,
+    // o fluxo normal do ViaCEP assume dali em diante.
+    const cepFormatado = formatarCep(dados.cep);
+    if (cepFormatado) {
+      document.getElementById('cep').value = cepFormatado;
+    }
   } catch (erro) {
     console.error('Erro ao consultar CNPJ:', erro);
-    // Falha de rede/parse não deve bloquear o cadastro -- razão social
-    // continua editável manualmente.
+    // Falha de rede/parse não deve bloquear o cadastro -- os campos
+    // continuam editáveis manualmente.
   } finally {
     setFieldLoading('cnpj', false);
+    CAMPOS_AUTOPREENCHIDOS_POR_CNPJ.forEach((id) => setFieldLoading(id, false));
   }
 }
 

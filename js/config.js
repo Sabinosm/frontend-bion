@@ -1,1 +1,1 @@
-const API_BASE_URL = " https://transcript-proportion-hat-three.trycloudflare.com";
+export const URL_BASE_API = " https://transcript-proportion-hat-three.trycloudflare.com";
