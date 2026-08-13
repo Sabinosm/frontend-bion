@@ -20,7 +20,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 
     if (response.ok) {
       // Se a sessão já for válida (completa), redireciona no frontend
-      window.location.href = '/html/pages/auth/afterLogin.html';
+      window.location.href = '../../../../html/pages/auth/afterLogin.html';
     }
   } catch (error) {
     console.error('Erro ao verificar sessão:', error);

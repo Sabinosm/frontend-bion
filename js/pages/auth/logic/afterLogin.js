@@ -42,7 +42,7 @@ async function tratarPosLogin() {
 
     if (!resp.ok) {
       // Sessão inválida/expirada -- volta para o login.  
-      window.location.href = "/html/pages/auth/login.html";
+      window.location.href = "../../../../html/pages/auth/login.html";
       return;
     }
 
@@ -50,7 +50,7 @@ async function tratarPosLogin() {
   } catch (erro) {
     console.error("Erro ao verificar status da sessão:", erro);
     exibirMensagem("Não foi possível verificar sua sessão. Tente entrar novamente.", "erro");
-    setTimeout(() => { window.location.href = "/html/pages/auth/login.html"; }, 2000);
+    setTimeout(() => { window.location.href = "../../../../html/pages/auth/login.html"; }, 2000);
     return;
   }
 
@@ -61,18 +61,18 @@ async function tratarPosLogin() {
 
     case "onboarding_pendente": {
       const senhaJaDefinida = statusData?.senha_definida ? "1" : "0";
-      window.location.href = `/html/pages/auth/onboarding.html?senha_definida=${senhaJaDefinida}`;
+      window.location.href = `../../../../html/pages/auth/onboarding.html?senha_definida=${senhaJaDefinida}`;
       break;
     }
 
     case "completa":
-      window.location.href = "/html/pages/auth/inicio.html";
+      window.location.href = `../../../../html/pages/auth/inicio.html`;
       break;
 
     default:
       // Estado inesperado -- não assumimos sucesso silenciosamente.
       console.error("Status de sessão desconhecido:", statusData?.status);
-      window.location.href = "/html/pages/auth/login.html";
+      window.location.href = `../../../../html/pages/auth/login.html`;
   }
 }
 
@@ -82,7 +82,7 @@ async function tratarMfaPendente() {
   try {
     await confirmarSegundoFator();
     exibirMensagem("Login realizado com sucesso!", "sucesso");
-    window.location.href = "/html/pages/auth/inicio.html";
+    window.location.href = `../../../../html/pages/auth/inicio.html`;
   } catch (erro) {
     console.error("Falha na confirmação de identidade:", erro);
     exibirMensagem(

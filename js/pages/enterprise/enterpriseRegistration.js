@@ -193,7 +193,7 @@ document.getElementById('form-empresa').addEventListener('submit', async functio
       salvoEm: Date.now(),
     }));
 
-    window.location.href = '/html/pages/user/admin/adminRegistration.html';
+    window.location.href = '../../../html/pages/user/admin/adminRegistration.html';
   } finally {
     botao.disabled = false;
   }

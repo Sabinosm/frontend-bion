@@ -51,7 +51,7 @@ async function sincronizarPasso() {
 
     if (!resp.ok) {
       // Sessão inválida/expirada -- volta para o login.
-      window.location.href = "/html/pages/auth/login.html";
+      window.location.href = "../../../../html/pages/auth/login.html";
       return;
     }
 
@@ -61,7 +61,7 @@ async function sincronizarPasso() {
       // Sessão não está mais em onboarding (ex.: concluído em outra
       // aba, ou ainda precisa de MFA) -- deixa o afterLogin decidir o
       // destino certo em vez de assumir aqui.
-      window.location.href = "/html/pages/auth/afterLogin.html";
+      window.location.href = "../../../../html/pages/auth/afterLogin.html";
       return;
     }
 
@@ -96,7 +96,7 @@ botaoCadastrarWebauthn.addEventListener("click", async () => {
   try {
     await cadastrarWebauthn();
     exibirMensagem("Cadastro concluído! Redirecionando...", "sucesso");
-    window.location.href = "/html/pages/inicio.html";
+    window.location.href = "../../../../html/pages/inicio.html";
   } catch (erro) {
     console.error("Falha ao cadastrar WebAuthn:", erro);
     exibirMensagem(erro.message || "Não foi possível cadastrar seu dispositivo. Tente novamente.", "erro");

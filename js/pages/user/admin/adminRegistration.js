@@ -49,7 +49,7 @@ try {
 }
 
 if (!dadosEmpresa) {
-  window.location.href = '/html/pages/enterprise/enterpriseRegistration.html';
+  window.location.href = '../../../../html/pages/enterprise/enterpriseRegistration.html';
 }
 
 // Se o usuário sair desta página sem concluir o cadastro (fechar aba,
@@ -98,7 +98,7 @@ document.getElementById('form-admin').addEventListener('submit', async function 
   // preenchimento, ainda pegamos isso aqui antes de tentar enviar.
   if (!dadosEmpresa) {
     exibirMensagem('Dados da empresa não encontrados. Reinicie o cadastro.', 'erro');
-    window.location.href = '/html/pages/enterprise/enterpriseRegistration.html';
+    window.location.href = '../../../../html/pages/enterprise/enterpriseRegistration.html';
     return;
   }
 
@@ -137,7 +137,7 @@ document.getElementById('form-admin').addEventListener('submit', async function 
     sessionStorage.removeItem(CHAVE_SESSION_EMPRESA);
     exibirMensagem('Cadastro concluído! Redirecionando para o login...', 'sucesso');
     setTimeout(() => {
-      window.location.href = '/html/pages/auth/login.html';
+      window.location.href = '../../../../html/pages/auth/login.html';
     }, 1500);
   } catch (erro) {
     console.error('Erro ao enviar cadastro:', erro);
