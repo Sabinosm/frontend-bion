@@ -6,12 +6,14 @@
 // oauth.py não manda o estado da sessão na URL -- ele fica no cookie
 // httpOnly. Por isso, o primeiro passo aqui é sempre consultar
 // /auth/status para saber o que fazer em seguida:
-//   - "mfa_pendente"       -> pedir confirmação WebAuthn
+//   - "mfa_pendente"       -> pedir confirmação WebAuthn (só ocorre
+//                              vindo de login por senha; login via
+//                              Google nunca cai neste estado)
 //   - "onboarding_pendente" -> mandar para a página de onboarding
 //   - "completa"           -> sessão já pronta, ir para o dashboard
 //   - qualquer outra coisa / erro -> volta para o login
 
-import { confirmarSegundoFator } from "./webauthn.js";
+import { confirmarSegundoFator, SemAutenticadorDisponivelError, LimiteTentativasExcedidoError } from "./webauthn.js";
 import { exibirMensagem } from "../../../shared/feedback.js";
 import { URL_BASE_API } from "../../../config.js";
 
@@ -85,10 +87,57 @@ async function tratarMfaPendente() {
     window.location.href = `../../../../html/pages/auth/inicio.html`;
   } catch (erro) {
     console.error("Falha na confirmação de identidade:", erro);
+
+    if (erro instanceof LimiteTentativasExcedidoError) {
+      // Sem mais tentativas nesta sessão -- não há fallback aqui, o
+      // caminho é voltar ao login e reautenticar (por senha, o que
+      // reinicia o contador, ou por Google, que não exige 2FA).
+      exibirMensagemVoltarAoLogin(
+        "Limite de tentativas de confirmação atingido. " +
+        "Entre novamente para tentar de novo."
+      );
+      return;
+    }
+
+    if (erro instanceof SemAutenticadorDisponivelError) {
+      // Nenhum autenticador disponível nesta máquina (sem
+      // PIN/biometria configurados, sem Bluetooth para QR code) --
+      // não adianta insistir no mesmo WebAuthn. Orienta o usuário a
+      // voltar ao login e entrar por senha ou por Google.
+      exibirMensagemVoltarAoLogin(
+        "Não encontramos nenhum método de confirmação disponível neste " +
+        "dispositivo (sem PIN ou biometria configurados, e sem Bluetooth " +
+        "para usar o celular). Entre novamente para tentar de outra forma."
+      );
+      return;
+    }
+
     exibirMensagem(
       erro.message || "Não foi possível confirmar sua identidade. Tente novamente.",
       "erro"
     );
     botaoTentarNovamente.hidden = false;
   }
+}
+
+/**
+ * Mostra uma mensagem de erro com um link para reiniciar o login,
+ * usado quando não há mais nada a fazer nesta tela (limite de
+ * tentativas esgotado ou nenhum autenticador disponível).
+ *
+ * `exibirMensagem` (shared/feedback.js) só aceita texto simples, então
+ * o link é montado à parte e anexado ao container de feedback.
+ */
+function exibirMensagemVoltarAoLogin(mensagem) {
+  exibirMensagem(mensagem, "erro");
+
+  const container = document.getElementById("mensagemFeedback");
+  if (!container) return;
+
+  const link = document.createElement("a");
+  link.href = "../../../../html/pages/auth/login.html";
+  link.textContent = "Voltar para o login";
+  link.className = "link-fallback-google";
+  container.appendChild(document.createElement("br"));
+  container.appendChild(link);
 }

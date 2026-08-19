@@ -172,8 +172,8 @@ function validateLoginField() {
 function validateSenhaField() {
   const senha = document.getElementById('senha').value;
 
-  if (senha.length < 8 || senha.length > 50) {
-    setError('senha', 'Deve ter entre 8 e 50 caracteres');
+  if (senha.length < 12 || senha.length > 50) {
+    setError('senha', 'Deve ter entre 12 e 50 caracteres');
     return false;
   }
   // 1. Valida se tem ao menos 1 letra (maiúscula ou minúscula, incluindo acentuadas)

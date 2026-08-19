@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <title>Redirecionando...</title>
+  <!--
+    Ponto de entrada fixo para onde oauth.py redireciona depois do
+    callback do Google. Existe só para desacoplar o backend do path
+    físico real das páginas do frontend: se afterLogin.html mudar de
+    pasta ou de nome, só este arquivo precisa ser atualizado -- o
+    oauth.py nunca muda.
+
+    Preserva a querystring (?erro=..., se vier de algum caso de erro
+    tratado aqui no futuro) ao repassar para o destino real.
+  -->
+</head>
+<body>
+  <script>
+    const destino = "./afterLogin.html" + window.location.search;
+    window.location.replace(destino);
+  </script>
+  <noscript>
+    JavaScript é necessário. <a href="./afterLogin.html">Continuar</a>
+  </noscript>
+</body>
+</html>

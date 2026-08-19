@@ -240,24 +240,6 @@ p.hint {
 #mensagemFeedback.sucesso { color: #6bffb0; }
 #mensagemFeedback.info    { color: var(--muted2); }
 
-/* ── Steps (onboarding) ───────────────────────
-   Indicador de progresso "Passo 1 de 2" / "Passo 2 de 2". */
-.steps {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin-bottom: 24px;
-}
-.steps .step-dot {
-  width: 26px;
-  height: 3px;
-  border-radius: 2px;
-  background: var(--border);
-  transition: background .3s;
-}
-.steps .step-dot.active { background: var(--text-strong); }
-.steps .step-dot.done   { background: var(--muted2); }
-
 /* ── Loading state (afterLogin) ────────────────
    Spinner simples via CSS puro, sem lib/ícone externo. */
 .loading-wrap {
@@ -275,3 +257,13 @@ p.hint {
   animation: spin .8s linear infinite;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
+
+.link-fallback-google {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+/* Opcional: adiciona um efeito sutil ao passar o mouse */
+.link-fallback-google:hover {
+  opacity: 0.85;
+}

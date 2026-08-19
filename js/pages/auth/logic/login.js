@@ -39,22 +39,6 @@ document.getElementById("login-form").addEventListener("submit", async (event) =
 
     window.location.href = '/html/pages/auth/afterLogin.html';
 
-    // if (resultado?.data?.status === "mfa_pendente") {
-    //   exibirMensagem("Confirme sua identidade para continuar...", "info");
-    //   // confirmarSegundoFator() já executa o fluxo completo:
-    //   // iniciar -> navigator.credentials.get() -> confirmar
-    //   await confirmarSegundoFator();
-    //   exibirMensagem("Login realizado com sucesso!", "sucesso");
-    //   return;
-    // }
-    // else if (resultado?.data?.status === "onboarding_pendente") {
-    //   window.location.href = '/html/pages/auth/onboarding.html';
-    //   return;
-    // }
-    //
-    // exibirMensagem("Login realizado com sucesso!", "sucesso");
-    // form.reset();
-
   } catch (erro) {
     console.error("Falha na comunicação:", erro);
     exibirMensagem(erro.message || "Ocorreu um erro ao enviar os dados. Tente novamente.", "erro");
@@ -89,6 +73,7 @@ async function enviarLogin(dados) {
 // essa etapa do OAuth2 precisa ser navegação real, não uma chamada AJAX.
 // O Google vai trazer o usuário de volta em afterLogin.html, não aqui —
 // é lá que o estado mfa_pendente/onboarding_pendente é tratado.
+
 const botaoGoogle = document.querySelector(".btn-google");
 if (botaoGoogle) {
   botaoGoogle.addEventListener("click", () => {

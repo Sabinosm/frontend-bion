@@ -24,14 +24,9 @@
     <span class="logo-text">B-íon AI</span>
   </div>
 
-  <div class="steps" aria-hidden="true">
-    <span class="step-dot" id="dot-1"></span>
-    <span class="step-dot" id="dot-2"></span>
-  </div>
-
   <section id="passo-senha">
     <h1>Defina sua senha</h1>
-    <p class="sub">Passo 1 de 2</p>
+    <p class="sub">Último passo para acessar sua conta</p>
     <form id="form-senha" method="post" action="#">
       <div class="field">
         <label for="senha">Nova senha</label>
@@ -39,13 +34,6 @@
       </div>
       <button class="btn-primary" type="submit">Continuar</button>
     </form>
-  </section>
-
-  <section id="passo-webauthn" hidden>
-    <h1>Cadastre seu dispositivo</h1>
-    <p class="sub">Passo 2 de 2</p>
-    <p class="hint">Por segurança, é obrigatório cadastrar um método de confirmação de identidade (chave de segurança, biometria ou PIN do dispositivo).</p>
-    <button id="btn-cadastrar-webauthn" class="btn-primary" type="button">Cadastrar dispositivo</button>
   </section>
 
   <div id="mensagemFeedback" role="status" aria-live="polite"></div>
