@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B-íon — Consultas</title>
+<link rel="stylesheet" href="../../../../css/pages/user/standartUser/medicHomePage.css">
+<link rel="stylesheet" href="../../../../css/pages/user/standartUser/settings.css">
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ===== SIDEBAR ===== -->
+  <nav class="sidebar">
+    <div class="sidebar-logo">B-íon</div>
+
+    <div class="nav-group nav-group--work">
+      <a href="#" class="nav-item nav-item--active">
+        <span class="nav-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M4 4h16v14H8l-4 4V4z" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="nav-label">Consultas</span>
+      </a>
+      <a href="#" class="nav-item">
+        <span class="nav-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <circle cx="12" cy="8" r="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M5 20c0-4 3-6.5 7-6.5s7 2.5 7 6.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="nav-label">Pacientes</span>
+      </a>
+    </div>
+
+    <!-- espaçador empurra o grupo de sistema para o rodapé -->
+    <div class="nav-spacer"></div>
+
+    <div class="nav-group nav-group--system">
+      <button type="button" class="nav-item nav-item--profile" id="open-settings">
+        <span class="nav-avatar">DR</span>
+        <span class="nav-label-group">
+          <span class="nav-label">Dra. Renata</span>
+          <span class="nav-sublabel">Perfil</span>
+        </span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ===== CONTEÚDO PRINCIPAL ===== -->
+  <main class="main">
+
+    <header class="main-header">
+      <div>
+        <h1>Consultas</h1>
+        <p class="main-subtitle">Seu histórico e consultas em andamento</p>
+      </div>
+      <button class="btn-primary">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+          <path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Nova consulta
+      </button>
+    </header>
+
+    <button class="theme-toggle" onclick="document.documentElement.dataset.theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'">
+      Alternar tema (teste)
+    </button>
+
+    <!-- Métricas — placeholder, espaço reservado para gráficos futuros -->
+    <section class="metrics">
+      <div class="metric-card">
+        <div class="metric-value">12</div>
+        <div class="metric-label">Consultas hoje</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">3</div>
+        <div class="metric-label metric-label--accent status--em-atendimento">Em atendimento</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">5</div>
+        <div class="metric-label metric-label--accent status--aguardando-medico">Aguardando médico</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">4</div>
+        <div class="metric-label">Encerradas hoje</div>
+      </div>
+    </section>
+
+    <!-- Em andamento (qualquer status ativo, exceto encerrada) -->
+    <section class="section">
+      <h2 class="section-title">Em andamento</h2>
+      <div class="card-list">
+
+        <article class="consult-card consult-card--active">
+          <div class="consult-status status--em-atendimento">
+            <span class="status-dot"></span> Em atendimento
+          </div>
+          <div class="consult-main">
+            <h3 class="consult-patient">Marcos Vinícius Oliveira</h3>
+            <p class="consult-meta">Hoje, 14:32 · Protocolo NEWS2</p>
+          </div>
+          <button class="btn-secondary">Continuar</button>
+        </article>
+
+        <article class="consult-card consult-card--active">
+          <div class="consult-status status--aguardando-medico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="9" stroke-linecap="round"/>
+              <path d="M12 7v5l3 2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Aguardando médico
+          </div>
+          <div class="consult-main">
+            <h3 class="consult-patient">Carla Regina Duarte</h3>
+            <p class="consult-meta">Hoje, 14:50 · Triagem concluída</p>
+          </div>
+          <button class="btn-secondary">Atender</button>
+        </article>
+
+        <article class="consult-card consult-card--active">
+          <div class="consult-status status--em-triagem">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 3v3M12 18v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M3 12h3M18 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1" stroke-linecap="round"/>
+            </svg>
+            Em triagem
+          </div>
+          <div class="consult-main">
+            <h3 class="consult-patient">Ricardo Alves Nunes</h3>
+            <p class="consult-meta">Hoje, 15:05 · Protocolo MTS</p>
+          </div>
+          <button class="btn-secondary">Continuar</button>
+        </article>
+
+        <article class="consult-card consult-card--active">
+          <div class="consult-status status--em-observacao">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="12" cy="12" r="2.5"/>
+            </svg>
+            Em observação
+          </div>
+          <div class="consult-main">
+            <h3 class="consult-patient">Fernanda Costa Ribeiro</h3>
+            <p class="consult-meta">Hoje, 13:15 · Protocolo Personalizado</p>
+          </div>
+          <button class="btn-secondary">Continuar</button>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- Aguardando triagem -->
+    <section class="section">
+      <h2 class="section-title">Aguardando triagem</h2>
+      <div class="card-list">
+
+        <article class="consult-card">
+          <div class="consult-status status--aguardando-triagem">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="9" stroke-linecap="round"/>
+            </svg>
+            Aguardando triagem
+          </div>
+          <div class="consult-main">
+            <h3 class="consult-patient">Paulo Henrique Martins</h3>
+            <p class="consult-meta">Hoje, 15:20 · Chegada registrada</p>
+          </div>
+          <button class="btn-ghost">Iniciar triagem</button>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- Concluídas recentemente -->
+    <section class="section">
+      <h2 class="section-title">Concluídas recentemente</h2>
+      <div class="card-list">
+
+        <article class="consult-card">
+          <div class="consult-status status--encerrada">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Encerrada
+          </div>
+          <div class="consult-main">
+            <h3 class="consult-patient">Helena Cristina Souza</h3>
+            <p class="consult-meta">Hoje, 09:10 · Protocolo MTS</p>
+          </div>
+          <button class="btn-ghost">Ver resultado</button>
+        </article>
+
+        <article class="consult-card">
+          <div class="consult-status status--encerrada">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Encerrada
+          </div>
+          <div class="consult-main">
+            <h3 class="consult-patient">João Pedro Almeida</h3>
+            <p class="consult-meta">Ontem, 18:47 · Protocolo Personalizado</p>
+          </div>
+          <button class="btn-ghost">Ver resultado</button>
+        </article>
+
+        <article class="consult-card">
+          <div class="consult-status status--encerrada">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Encerrada
+          </div>
+          <div class="consult-main">
+            <h3 class="consult-patient">Beatriz Ferreira Lima</h3>
+            <p class="consult-meta">Ontem, 11:05 · Protocolo NEWS2</p>
+          </div>
+          <button class="btn-ghost">Ver resultado</button>
+        </article>
+
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ===== MODAL DE CONFIGURAÇÕES (overlay, fundo continua visível) ===== -->
+<div class="settings-overlay" id="settings-overlay">
+  <div class="settings-modal">
+
+    <button class="settings-close" id="settings-close" aria-label="Fechar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+        <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
+    <nav class="settings-tabs">
+      <span class="settings-tabs-title">Configurações</span>
+      <button class="settings-tab settings-tab--active" data-tab="user">User</button>
+      <button class="settings-tab" data-tab="seguranca">Segurança</button>
+      <button class="settings-tab" data-tab="preferencias">Preferências</button>
+      <button class="settings-tab" data-tab="arquivos">Arquivos</button>
+      <button class="settings-tab" data-tab="protocolos">Protocolos</button>
+    </nav>
+
+    <div class="settings-panels">
+
+      <!-- ===== USER ===== -->
+      <section class="settings-panel settings-panel--active" id="panel-user">
+        <h2 class="panel-title">Informações básicas</h2>
+        <p class="panel-subtitle">Alguns dados são gerenciados pela sua instituição e não podem ser editados aqui.</p>
+
+        <div class="avatar-row">
+          <div class="avatar-preview">DR</div>
+          <div>
+            <button class="btn-secondary btn-secondary--sm">Alterar foto</button>
+            <p class="field-hint">JPG ou PNG, até 4MB.</p>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="f-nome">Nome</label>
+          <input class="field-input" type="text" id="f-nome" value="Renata Carvalho Mendes" data-track>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="f-telefone">Telefone</label>
+          <input class="field-input" type="tel" id="f-telefone" value="(11) 98432-1170" data-track>
+        </div>
+
+        <div class="field-group field-group--locked">
+          <label class="field-label">CRM</label>
+          <div class="field-locked">
+            123456-SP
+            <span class="field-locked-tag">Gerenciado pela instituição</span>
+          </div>
+        </div>
+
+        <div class="field-group field-group--locked">
+          <label class="field-label">E-mail</label>
+          <div class="field-locked">
+            renata.mendes@hospitalexemplo.com.br
+            <span class="field-locked-tag">Gerenciado pela instituição</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== SEGURANÇA ===== -->
+      <section class="settings-panel" id="panel-seguranca">
+
+        <h2 class="panel-title">Autenticação em duas etapas</h2>
+        <p class="panel-subtitle">Obrigatória via chave de acesso (WebAuthn) — passkey, chave de segurança física ou biometria do dispositivo.</p>
+
+        <div class="device-list">
+          <div class="device-item">
+            <div class="device-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <rect x="5" y="2" width="14" height="20" rx="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M11 18h2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="device-info">
+              <p class="device-name">iPhone de Renata</p>
+              <p class="device-meta">Adicionado em 12/06/2026 · Último uso hoje</p>
+            </div>
+            <button class="btn-ghost btn-ghost--sm">Remover</button>
+          </div>
+
+          <div class="device-item">
+            <div class="device-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <rect x="2" y="4" width="20" height="14" rx="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M8 21h8M12 18v3" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="device-info">
+              <p class="device-name">Chave de segurança USB</p>
+              <p class="device-meta">Adicionado em 03/03/2026 · Último uso há 2 dias</p>
+            </div>
+            <button class="btn-ghost btn-ghost--sm">Remover</button>
+          </div>
+        </div>
+
+        <button class="btn-secondary" style="margin-top: 4px;">+ Adicionar novo dispositivo</button>
+
+        <div class="panel-divider"></div>
+
+        <h2 class="panel-title">Senha</h2>
+        <p class="panel-subtitle">Usada como primeiro fator, junto ao login institucional.</p>
+        <button class="btn-secondary">Alterar senha</button>
+
+        <div class="panel-divider"></div>
+
+        <h2 class="panel-title">Login</h2>
+        <div class="field-group field-group--locked">
+          <label class="field-label">Usuário de login</label>
+          <div class="field-locked">renata.mendes</div>
+        </div>
+      </section>
+
+      <!-- ===== PREFERÊNCIAS ===== -->
+      <section class="settings-panel" id="panel-preferencias" data-savable>
+
+        <h2 class="panel-title">Tema</h2>
+        <p class="panel-subtitle">Escolha o esquema de cores da aplicação.</p>
+        <div class="theme-options">
+        <button class="theme-option theme-option--active" data-theme-option="dark">
+          <span class="theme-swatch theme-swatch--dark"></span>
+          Dark
+        </button>
+        <button class="theme-option" data-theme-option="light">
+          <span class="theme-swatch theme-swatch--light"></span>
+          Light
+        </button>
+        <button class="theme-option" data-theme-option="blue">
+          <span class="theme-swatch theme-swatch--blue"></span>
+          Blue
+        </button>
+        <button class="theme-option" data-theme-option="blue-light">
+          <span class="theme-swatch theme-swatch--blue-light"></span>
+          Blue Light
+        </button>
+      </div>
+
+        <div class="panel-divider"></div>
+
+        <h2 class="panel-title">Acessibilidade</h2>
+        <div class="field-group">
+          <label class="field-label" for="f-fonte">Tamanho da fonte</label>
+          <input class="field-range" type="range" id="f-fonte" min="0" max="2" value="1" step="1" data-track>
+          <div class="field-range-labels">
+            <span>Pequena</span><span>Padrão</span><span>Grande</span>
+          </div>
+        </div>
+
+        <div class="panel-divider"></div>
+
+        <h2 class="panel-title">Idioma</h2>
+        <div class="field-group">
+          <label class="field-label" for="f-idioma">Idioma da interface</label>
+          <select class="field-input" id="f-idioma" data-track>
+            <option>Português (Brasil)</option>
+            <option>English</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- ===== ARQUIVOS ===== -->
+      <section class="settings-panel" id="panel-arquivos">
+      </section>
+
+      <!-- ===== PROTOCOLOS ===== -->
+      <section class="settings-panel" id="panel-protocolos">
+        <h2 class="panel-title">Protocolos</h2>
+        <p class="panel-subtitle">Em definição — configurações de protocolo (MTS, NEWS2, Personalizado) entram aqui.</p>
+      </section>
+
+    </div>
+
+    <!-- Barra de salvar/cancelar — só aparece com mudança pendente -->
+    <div class="save-bar" id="save-bar">
+      <span class="save-bar-text">Você tem alterações não salvas</span>
+      <div class="save-bar-actions">
+        <button class="btn-ghost" id="btn-cancel">Cancelar</button>
+        <button class="btn-primary" id="btn-save">Salvar alterações</button>
+      </div>
+    </div>
+
+  </div>  
+</div>
+
+<script src="../../../../js/pages/user/standartUser/settings.js"></script>
+</body>
+</html>

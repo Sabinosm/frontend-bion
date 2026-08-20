@@ -1,0 +1,569 @@
+/* ============================================
+   B-íon — Produto clínico (alto contraste, sóbrio)
+   Tokens semânticos separados de tokens de paleta,
+   prontos para o sistema de temas (claro/escuro/alto-contraste)
+   ============================================ */
+
+:root,
+[data-theme="dark"] {
+  /* ===== TEMA "DARK" (default) — inspirado no Discord: cinza-escuro, nunca pretão ===== */
+  /* 1. Base neutra (cinza-escuro em camadas, não preto puro) */
+  --palette-gray-50:  #f5f6f7;   /* mantido para uso pontual (ex: texto sobre accent) */
+  --palette-gray-100: #eceeef;
+  --palette-gray-200: #dde1e4;
+  --palette-gray-300: #96a0aa;
+  --palette-gray-400: #7c8792;
+  --palette-gray-600: #b6bec6;
+  --palette-gray-800: #212429;   /* era #2b2f36 */
+  --palette-gray-850: #1b1d21;   /* era #23262c */
+  --palette-gray-900: #131518;   /* era #1a1d21 */
+
+  /* 2. Branco / branco-forte — reservado para texto e destaque, não para fundo */
+  --palette-white:        #f2f3f5;
+  --palette-white-strong: #ffffff;
+
+  /* 3. Accent — cor de marca/ação */
+  --palette-accent-600: #5b7fe0;
+  --palette-accent-700: #4a6bcc;
+
+  /* Paleta de status por fase (mesma em ambos os temas, só ajusta o "bg") */
+  --palette-status-neutral:  #9aa3ab;
+  --palette-status-neutral-bg: rgba(154, 163, 171, 0.16);
+  --palette-status-yellow:    #e0b64a;
+  --palette-status-yellow-bg: rgba(224, 182, 74, 0.14);
+  --palette-status-amber:     #e0894a;
+  --palette-status-amber-bg:  rgba(224, 137, 74, 0.14);
+  --palette-status-green:     #4bc17d;
+  --palette-status-green-bg:  rgba(75, 193, 125, 0.14);
+  --palette-status-blue:      #5b8fe0;
+  --palette-status-blue-bg:   rgba(91, 143, 224, 0.14);
+
+  /* tokens semânticos */
+  --bg: var(--palette-gray-850);
+  --bg-elevated: var(--palette-gray-800);
+  --text: var(--palette-white);
+  --text-strong: var(--palette-white-strong);
+  --text-muted: var(--palette-gray-600);
+  --border: rgba(255, 255, 255, 0.08);
+
+  --accent: var(--palette-accent-600);
+  --accent-hover: var(--palette-accent-700);
+
+  --sidebar-bg: var(--palette-gray-900);
+  --sidebar-text: var(--palette-gray-400);
+  --sidebar-text-active: var(--palette-white-strong);
+  --sidebar-active-bg: rgba(255, 255, 255, 0.06);
+
+  /* neumorphism — em tema escuro o relevo vem de luz/sombra bem sutis sobre --bg */
+  --neu-shadow-dark: rgba(0, 0, 0, 0.35);
+  --neu-shadow-light: rgba(255, 255, 255, 0.028);
+}
+
+[data-theme="light"] {
+  /* ===== TEMA "LIGHT" (alternativo) ===== */
+  --palette-gray-50:  #f5f6f7;
+  --palette-gray-100: #eceeef;
+  --palette-gray-200: #dde1e4;
+  --palette-gray-300: #c3c9cd;
+  --palette-gray-400: #9aa3ab;
+  --palette-gray-600: #5b6570;
+  --palette-gray-800: #2b323a;
+  --palette-gray-900: #14171b;
+
+  --palette-white:        #ffffff;
+  --palette-white-strong: #ffffff;
+
+  --palette-accent-600: #2f5fdb;
+  --palette-accent-700: #2650b8;
+
+  --palette-status-neutral:  #8a92a0;
+  --palette-status-neutral-bg: #eef0f2;
+  --palette-status-yellow:    #c98a12;
+  --palette-status-yellow-bg: #fbf1dc;
+  --palette-status-amber:     #c96a12;
+  --palette-status-amber-bg:  #fbe9dc;
+  --palette-status-green:     #1f8a4c;
+  --palette-status-green-bg:  #e6f5eb;
+  --palette-status-blue:      #2f6fdb;
+  --palette-status-blue-bg:   #e7edfb;
+
+  --bg: var(--palette-gray-50);
+  --bg-elevated: var(--palette-white);
+  --text: var(--palette-gray-900);
+  --text-strong: var(--palette-gray-900);
+  --text-muted: var(--palette-gray-600);
+  --border: var(--palette-gray-200);
+
+  --accent: var(--palette-accent-600);
+  --accent-hover: var(--palette-accent-700);
+
+  --sidebar-bg: var(--palette-gray-900);
+  --sidebar-text: var(--palette-gray-400);
+  --sidebar-text-active: var(--palette-white-strong);
+  --sidebar-active-bg: rgba(255, 255, 255, 0.08);
+
+  --neu-shadow-dark: rgba(20, 23, 27, 0.10);
+  --neu-shadow-light: rgba(255, 255, 255, 0.75);
+}
+
+[data-theme="blue"] {
+  /* Neutros com leve matiz azul, ao invés de cinza puro */
+  --palette-gray-50:  #eef1f8;
+  --palette-gray-100: #e2e7f2;
+  --palette-gray-200: #cfd7e8;
+  --palette-gray-300: #8b96b3;
+  --palette-gray-400: #6f7a9c;
+  --palette-gray-600: #a8b3d1;
+  --palette-gray-800: #1c2333;   /* superfície elevada */
+  --palette-gray-850: #161c29;   /* fundo principal */
+  --palette-gray-900: #0f131d;   /* sidebar */
+
+  --palette-white:        #eef1f8;
+  --palette-white-strong: #ffffff;
+
+  --palette-accent-600: #4d8fe0;
+  --palette-accent-700: #3d78c9;
+
+  --palette-status-neutral:  #93a0c2;
+  --palette-status-neutral-bg: rgba(147, 160, 194, 0.16);
+  --palette-status-yellow:    #e0c14a;
+  --palette-status-yellow-bg: rgba(224, 193, 74, 0.14);
+  --palette-status-amber:     #e0954a;
+  --palette-status-amber-bg:  rgba(224, 149, 74, 0.14);
+  --palette-status-green:     #4bc1a8;
+  --palette-status-green-bg:  rgba(75, 193, 168, 0.14);
+  --palette-status-blue:      #5b9fe0;
+  --palette-status-blue-bg:   rgba(91, 159, 224, 0.14);
+
+  --bg: var(--palette-gray-850);
+  --bg-elevated: var(--palette-gray-800);
+  --text: var(--palette-white);
+  --text-strong: var(--palette-white-strong);
+  --text-muted: var(--palette-gray-600);
+  --border: rgba(255, 255, 255, 0.08);
+
+  --accent: var(--palette-accent-600);
+  --accent-hover: var(--palette-accent-700);
+
+  --sidebar-bg: var(--palette-gray-900);
+  --sidebar-text: var(--palette-gray-400);
+  --sidebar-text-active: var(--palette-white-strong);
+  --sidebar-active-bg: rgba(255, 255, 255, 0.06);
+
+  --neu-shadow-dark: rgba(0, 0, 4, 0.4);
+  --neu-shadow-light: rgba(160, 190, 255, 0.04);
+}
+
+[data-theme="blue-light"] {
+  --palette-gray-50:  #f4f6fb;
+  --palette-gray-100: #e8ecf6;
+  --palette-gray-200: #d3daed;
+  --palette-gray-300: #a9b5d6;
+  --palette-gray-400: #7c8ab3;
+  --palette-gray-600: #52618a;
+  --palette-gray-800: #26304a;
+  --palette-gray-900: #101627;
+
+  --palette-white:        #ffffff;
+  --palette-white-strong: #ffffff;
+
+  --palette-accent-600: #3163d8;
+  --palette-accent-700: #2751b5;
+
+  --palette-status-neutral:  #7b87a8;
+  --palette-status-neutral-bg: #eaedf6;
+  --palette-status-yellow:    #b8890f;
+  --palette-status-yellow-bg: #faf1da;
+  --palette-status-amber:     #ba6a12;
+  --palette-status-amber-bg:  #fae8da;
+  --palette-status-green:     #1a8a6f;
+  --palette-status-green-bg:  #e2f5ef;
+  --palette-status-blue:      #2f6fdb;
+  --palette-status-blue-bg:   #e5edfb;
+
+  --bg: var(--palette-gray-50);
+  --bg-elevated: var(--palette-white);
+  --text: var(--palette-gray-900);
+  --text-strong: var(--palette-gray-900);
+  --text-muted: var(--palette-gray-600);
+  --border: var(--palette-gray-200);
+
+  --accent: var(--palette-accent-600);
+  --accent-hover: var(--palette-accent-700);
+
+  --sidebar-bg: var(--palette-gray-900);
+  --sidebar-text: var(--palette-gray-400);
+  --sidebar-text-active: var(--palette-white-strong);
+  --sidebar-active-bg: rgba(255, 255, 255, 0.08);
+
+  --neu-shadow-dark: rgba(16, 22, 39, 0.10);
+  --neu-shadow-light: rgba(255, 255, 255, 0.8);
+}
+
+
+:root {
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* ===== Mapeamento status → cor+ícone (agrupado por fase do fluxo) ===== */
+.status--aguardando-triagem,
+.status--encerrada {
+  --status-fg: var(--palette-status-neutral);
+  --status-bg: var(--palette-status-neutral-bg);
+}
+.status--em-triagem {
+  --status-fg: var(--palette-status-yellow);
+  --status-bg: var(--palette-status-yellow-bg);
+}
+.status--aguardando-medico {
+  --status-fg: var(--palette-status-amber);
+  --status-bg: var(--palette-status-amber-bg);
+}
+.status--em-atendimento {
+  --status-fg: var(--palette-status-green);
+  --status-bg: var(--palette-status-green-bg);
+}
+.status--em-observacao {
+  --status-fg: var(--palette-status-blue);
+  --status-bg: var(--palette-status-blue-bg);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+.app {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ===== SIDEBAR (fixa — só o .main rola) ===== */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 220px;
+  flex-shrink: 0;
+  background: var(--sidebar-bg);
+  display: flex;
+  flex-direction: column;
+  padding: 24px 12px;
+  overflow-y: auto;
+}
+
+.sidebar-logo {
+  font-family: 'Share Tech Mono', monospace;
+  letter-spacing: 0.08em;
+  color: var(--sidebar-text-active);
+  font-size: 18px;
+  padding: 0 12px 28px;
+}
+
+.nav-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.nav-spacer {
+  flex: 1;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  color: var(--sidebar-text);
+  text-decoration: none;
+  font-size: 14px;
+  font-family: inherit;
+  background: transparent;
+  border: none;
+  width: 100%;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.nav-item:hover {
+  background: var(--sidebar-active-bg);
+  color: var(--sidebar-text-active);
+}
+
+.nav-item--active {
+  background: var(--sidebar-active-bg);
+  color: var(--sidebar-text-active);
+  font-weight: 600;
+}
+
+.nav-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  display: flex;
+}
+.nav-icon svg { width: 100%; height: 100%; }
+
+.nav-group--system {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 12px;
+  margin-top: 12px;
+}
+
+.nav-item--profile {
+  margin-top: 4px;
+}
+
+.nav-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--palette-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.nav-label-group {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+
+.nav-sublabel {
+  font-size: 11px;
+  color: var(--palette-gray-400);
+}
+
+/* ===== MAIN (com margem para compensar a sidebar fixa) ===== */
+.main {
+  flex: 1;
+  margin-left: 220px;
+  padding: 40px 48px;
+  max-width: 900px;
+}
+
+.main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 36px;
+}
+
+.main-header h1 {
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.main-subtitle {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent);
+  color: var(--palette-white);
+  border: none;
+  padding: 11px 18px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.btn-primary:hover { background: var(--accent-hover); }
+
+.btn-secondary {
+  background: var(--bg-elevated);
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.btn-secondary:hover {
+  background: var(--accent);
+  color: var(--palette-white-strong);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+.btn-ghost:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ===== Bloco de métricas (placeholder para gráficos futuros) ===== */
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 36px;
+}
+
+.metric-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+  box-shadow:
+    4px 4px 10px var(--neu-shadow-dark),
+    -4px -4px 10px var(--neu-shadow-light);
+}
+
+.metric-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-strong);
+}
+
+.metric-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.metric-label--accent { color: var(--status-fg, var(--accent)); }
+
+.section {
+  margin-bottom: 32px;
+}
+
+.theme-toggle {
+  background: transparent;
+  border: 1px dashed var(--border);
+  color: var(--text-muted);
+  font-size: 12px;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  margin-bottom: 24px;
+}
+
+.section-title {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.consult-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  /* neumorphism sutil: relevo suave, mas o border acima garante contorno
+     legível mesmo se a sombra não renderizar bem (impressão, alto contraste) */
+  box-shadow:
+    5px 5px 12px var(--neu-shadow-dark),
+    -5px -5px 12px var(--neu-shadow-light);
+}
+
+.consult-card--active {
+  border-color: var(--accent);
+}
+
+/* Badge de status: ícone + cor, nunca só cor (daltonismo / mesma família de cor) */
+.consult-status {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 10px 5px 8px;
+  border-radius: 999px;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--status-fg);
+  background: var(--status-bg);
+}
+
+.consult-status svg {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.consult-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.consult-patient {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.consult-meta {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* ===== RESPONSIVO ===== */
+@media (max-width: 760px) {
+  .app { flex-direction: column; }
+  .sidebar {
+    position: static;
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px 16px;
+    overflow-y: visible;
+  }
+  .sidebar-logo { display: none; }
+  .nav-group { flex-direction: row; }
+  .nav-spacer { display: none; }
+  .nav-label, .nav-sublabel, .nav-label-group { display: none; }
+  .nav-group--system { border-top: none; margin-top: 0; padding-top: 0; margin-left: auto; }
+  .main { margin-left: 0; padding: 24px 20px; }
+  .main-header { flex-direction: column; gap: 16px; align-items: stretch; }
+  .consult-card { flex-wrap: wrap; }
+  .metrics { grid-template-columns: repeat(2, 1fr); }
+}
