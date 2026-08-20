@@ -310,21 +310,36 @@ body.no-scroll {
 }
 
 .theme-swatch--dark {
-  background: linear-gradient(135deg, #131518 0%, #131518 45%, #212429 45%, #212429 100%);
+  background: linear-gradient(135deg, #131518 0%, #131518 45%, #5b7fe0 45%, #5b7fe0 100%);
 }
 
 .theme-swatch--light {
-  background: linear-gradient(135deg, #14171b 0%, #14171b 45%, #f5f6f7 45%, #f5f6f7 100%);
+  background: linear-gradient(135deg, #14171b 0%, #14171b 45%, #2f5fdb 45%, #2f5fdb 100%);
 }
 
 .theme-swatch--blue {
-  background: linear-gradient(135deg, #0f131d 0%, #0f131d 45%, #1c2333 45%, #1c2333 100%);
+  background: linear-gradient(135deg, #0f131d 0%, #0f131d 45%, #4d8fe0 45%, #4d8fe0 100%);
 }
 
 .theme-swatch--blue-light {
   background: linear-gradient(135deg, #101627 0%, #101627 45%, #f4f6fb 45%, #f4f6fb 100%);
 }
 
+.theme-swatch--burgundy {
+  background: linear-gradient(135deg, #170d11 0%, #170d11 45%, #b84a62 45%, #b84a62 100%);
+}
+
+.theme-swatch--burgundy-light {
+  background: linear-gradient(135deg, #1f0f15 0%, #1f0f15 45%, #fbf8f9 45%, #fbf8f9 100%);
+}
+
+.theme-swatch--teal {
+  background: linear-gradient(135deg, #0c1717 0%, #0c1717 45%, #3a9b93 45%, #3a9b93 100%);
+}
+
+.theme-swatch--teal-light {
+  background: linear-gradient(135deg, #0f1f1f 0%, #0f1f1f 45%, #f4f9f9 45%, #f4f9f9 100%);
+}
 
 /* ===== Barra de salvar/cancelar (dentro do modal) ===== */
 .save-bar {

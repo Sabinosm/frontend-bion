@@ -200,6 +200,196 @@
   --neu-shadow-light: rgba(255, 255, 255, 0.8);
 }
 
+[data-theme="burgundy"] {
+  /* Neutros com tom marrom/vinho muito sutil */
+  --palette-gray-50:  #f8f5f6;
+  --palette-gray-100: #f0e8eb;
+  --palette-gray-200: #e2d7dc;
+  --palette-gray-300: #b397a2;
+  --palette-gray-400: #997885;
+  --palette-gray-600: #cbafba;
+  --palette-gray-800: #291c21;   /* superfície elevada */
+  --palette-gray-850: #21151a;   /* fundo principal */
+  --palette-gray-900: #170d11;   /* sidebar */
+
+  --palette-white:        #f8f5f6;
+  --palette-white-strong: #ffffff;
+
+  /* Accent: Vinho / Burgundy Clínico */
+  --palette-accent-600: #b84a62;
+  --palette-accent-700: #9e394f;
+
+  --palette-status-neutral:  #b098a2;
+  --palette-status-neutral-bg: rgba(176, 152, 162, 0.16);
+  --palette-status-yellow:    #e0b64a;
+  --palette-status-yellow-bg: rgba(224, 182, 74, 0.14);
+  --palette-status-amber:     #e0894a;
+  --palette-status-amber-bg:  rgba(224, 137, 74, 0.14);
+  --palette-status-green:     #4bc17d;
+  --palette-status-green-bg:  rgba(75, 193, 125, 0.14);
+  --palette-status-blue:      #b85c70;
+  --palette-status-blue-bg:   rgba(184, 92, 112, 0.14);
+
+  --bg: var(--palette-gray-850);
+  --bg-elevated: var(--palette-gray-800);
+  --text: var(--palette-white);
+  --text-strong: var(--palette-white-strong);
+  --text-muted: var(--palette-gray-600);
+  --border: rgba(255, 255, 255, 0.08);
+
+  --accent: var(--palette-accent-600);
+  --accent-hover: var(--palette-accent-700);
+
+  --sidebar-bg: var(--palette-gray-900);
+  --sidebar-text: var(--palette-gray-400);
+  --sidebar-text-active: var(--palette-white-strong);
+  --sidebar-active-bg: rgba(255, 255, 255, 0.06);
+
+  --neu-shadow-dark: rgba(0, 0, 0, 0.45);
+  --neu-shadow-light: rgba(255, 200, 210, 0.03);
+}
+
+
+[data-theme="burgundy-light"] {
+  --palette-gray-50:  #fbf8f9;
+  --palette-gray-100: #f4ecef;
+  --palette-gray-200: #e8dbe0;
+  --palette-gray-300: #d6bfc8;
+  --palette-gray-400: #ad8e9a;
+  --palette-gray-600: #805c6a;
+  --palette-gray-800: #3d242e;
+  --palette-gray-900: #1f0f15;
+
+  --palette-white:        #ffffff;
+  --palette-white-strong: #ffffff;
+
+  --palette-accent-600: #a3384f;
+  --palette-accent-700: #872b3f;
+
+  --palette-status-neutral:  #9c7f8a;
+  --palette-status-neutral-bg: #f5edf0;
+  --palette-status-yellow:    #b8890f;
+  --palette-status-yellow-bg: #faf1da;
+  --palette-status-amber:     #ba6a12;
+  --palette-status-amber-bg:  #fae8da;
+  --palette-status-green:     #1a8a58;
+  --palette-status-green-bg:  #e2f5ec;
+  --palette-status-blue:      #a3384f;
+  --palette-status-blue-bg:   #fbebf0;
+
+  --bg: var(--palette-gray-50);
+  --bg-elevated: var(--palette-white);
+  --text: var(--palette-gray-900);
+  --text-strong: var(--palette-gray-900);
+  --text-muted: var(--palette-gray-600);
+  --border: var(--palette-gray-200);
+
+  --accent: var(--palette-accent-600);
+  --accent-hover: var(--palette-accent-700);
+
+  --sidebar-bg: var(--palette-gray-900);
+  --sidebar-text: var(--palette-gray-400);
+  --sidebar-text-active: var(--palette-white-strong);
+  --sidebar-active-bg: rgba(255, 255, 255, 0.08);
+
+  --neu-shadow-dark: rgba(31, 15, 21, 0.08);
+  --neu-shadow-light: rgba(255, 255, 255, 0.8);
+}
+
+[data-theme="teal"] {
+  /* Neutros com leve matiz verde-petróleo */
+  --palette-gray-50:  #eef6f6;
+  --palette-gray-100: #e0eded;
+  --palette-gray-200: #cbdede;
+  --palette-gray-300: #88a8a8;
+  --palette-gray-400: #6a8e8e;
+  --palette-gray-600: #a2c4c4;
+  --palette-gray-800: #1a2929;   /* superfície elevada */
+  --palette-gray-850: #132121;   /* fundo principal */
+  --palette-gray-900: #0c1717;   /* sidebar */
+
+  --palette-white:        #eef6f6;
+  --palette-white-strong: #ffffff;
+
+  /* Accent: Verde-Marinho / Teal */
+  --palette-accent-600: #3a9b93;
+  --palette-accent-700: #2d827b;
+
+  --palette-status-neutral:  #8faeae;
+  --palette-status-neutral-bg: rgba(143, 174, 174, 0.16);
+  --palette-status-yellow:    #e0c14a;
+  --palette-status-yellow-bg: rgba(224, 193, 74, 0.14);
+  --palette-status-amber:     #e0954a;
+  --palette-status-amber-bg:  rgba(224, 149, 74, 0.14);
+  --palette-status-green:     #3ac188;
+  --palette-status-green-bg:  rgba(58, 193, 136, 0.14);
+  --palette-status-blue:      #3a9bb0;
+  --palette-status-blue-bg:   rgba(58, 155, 176, 0.14);
+
+  --bg: var(--palette-gray-850);
+  --bg-elevated: var(--palette-gray-800);
+  --text: var(--palette-white);
+  --text-strong: var(--palette-white-strong);
+  --text-muted: var(--palette-gray-600);
+  --border: rgba(255, 255, 255, 0.08);
+
+  --accent: var(--palette-accent-600);
+  --accent-hover: var(--palette-accent-700);
+
+  --sidebar-bg: var(--palette-gray-900);
+  --sidebar-text: var(--palette-gray-400);
+  --sidebar-text-active: var(--palette-white-strong);
+  --sidebar-active-bg: rgba(255, 255, 255, 0.06);
+
+  --neu-shadow-dark: rgba(0, 0, 0, 0.4);
+  --neu-shadow-light: rgba(160, 255, 240, 0.03);
+}
+
+[data-theme="teal-light"] {
+  --palette-gray-50:  #f4f9f9;
+  --palette-gray-100: #e6f0f0;
+  --palette-gray-200: #d1e3e3;
+  --palette-gray-300: #a3c7c7;
+  --palette-gray-400: #739c9c;
+  --palette-gray-600: #4a7070;
+  --palette-gray-800: #213b3b;
+  --palette-gray-900: #0f1f1f;
+
+  --palette-white:        #ffffff;
+  --palette-white-strong: #ffffff;
+
+  --palette-accent-600: #238078;
+  --palette-accent-700: #1a6660;
+
+  --palette-status-neutral:  #709494;
+  --palette-status-neutral-bg: #eaf2f2;
+  --palette-status-yellow:    #b8890f;
+  --palette-status-yellow-bg: #faf1da;
+  --palette-status-amber:     #ba6a12;
+  --palette-status-amber-bg:  #fae8da;
+  --palette-status-green:     #1a8a68;
+  --palette-status-green-bg:  #e2f5ef;
+  --palette-status-blue:      #237380;
+  --palette-status-blue-bg:   #e5f4f7;
+
+  --bg: var(--palette-gray-50);
+  --bg-elevated: var(--palette-white);
+  --text: var(--palette-gray-900);
+  --text-strong: var(--palette-gray-900);
+  --text-muted: var(--palette-gray-600);
+  --border: var(--palette-gray-200);
+
+  --accent: var(--palette-accent-600);
+  --accent-hover: var(--palette-accent-700);
+
+  --sidebar-bg: var(--palette-gray-900);
+  --sidebar-text: var(--palette-gray-400);
+  --sidebar-text-active: var(--palette-white-strong);
+  --sidebar-active-bg: rgba(255, 255, 255, 0.08);
+
+  --neu-shadow-dark: rgba(15, 31, 31, 0.08);
+  --neu-shadow-light: rgba(255, 255, 255, 0.8);
+}
 
 :root {
   --radius-sm: 6px;
