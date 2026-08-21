@@ -5,7 +5,7 @@
 //
 // oauth.py não manda o estado da sessão na URL -- ele fica no cookie
 // httpOnly. Por isso, o primeiro passo aqui é sempre consultar
-// /auth/status para saber o que fazer em seguida:
+// /auth/status (via sessionStatus.js) para saber o que fazer em seguida:
 //   - "mfa_pendente"       -> pedir confirmação WebAuthn (só ocorre
 //                              vindo de login por senha; login via
 //                              Google nunca cai neste estado)
@@ -15,7 +15,21 @@
 
 import { confirmarSegundoFator, SemAutenticadorDisponivelError, LimiteTentativasExcedidoError } from "./webauthn.js";
 import { exibirMensagem } from "../../../shared/feedback.js";
+import { consultarStatusSessao } from "./sessionStatus.js";
 import { URL_BASE_API } from "../../../config.js";
+
+const CHAVE_SESSION_STORAGE = "bion-dados-usuario";
+
+// Destino por tipo_usuario -- centralizado aqui porque é o único lugar
+// que decide navegação inicial pós-login. watchSession.js (rodando
+// dentro das homes) nunca precisa disso, só sabe voltar pro login.
+const DESTINO_POR_TIPO = {
+  medico: "../../../../html/pages/user/standartUser/medicHomePage.html",
+  enfermeiro: "../../../../html/pages/user/standartUser/medicHomePage.html",
+  admin: "../../../../html/pages/user/standartUser/medicHomePage.html",
+};
+
+const ROTA_LOGIN = "../../../../html/pages/auth/login.html";
 
 const botaoTentarNovamente = document.getElementById("btn-tentar-novamente");
 
@@ -34,48 +48,88 @@ botaoTentarNovamente.addEventListener("click", async () => {
 });
 
 async function tratarPosLogin() {
-  let statusData;
+  let resultado;
 
   try {
-    const resp = await fetch(`${URL_BASE_API}/auth/status`, {
-      method: "GET",
-      credentials: "include", // envia o cookie httpOnly de sessão
-    });
-
-    if (!resp.ok) {
-      // Sessão inválida/expirada -- volta para o login.  
-      window.location.href = "../../../../html/pages/auth/login.html";
-      return;
-    }
-
-    statusData = await resp.json();
+    resultado = await consultarStatusSessao();
   } catch (erro) {
     console.error("Erro ao verificar status da sessão:", erro);
     exibirMensagem("Não foi possível verificar sua sessão. Tente entrar novamente.", "erro");
-    setTimeout(() => { window.location.href = "../../../../html/pages/auth/login.html"; }, 2000);
+    setTimeout(() => { window.location.href = ROTA_LOGIN; }, 2000);
     return;
   }
 
-  switch (statusData?.status) {
+  if (!resultado.ok) {
+    // Cobre tanto "nao_autenticado" (401) quanto "status_desconhecido"
+    // -- em ambos os casos não assumimos sucesso silenciosamente.
+    if (resultado.motivo === "status_desconhecido") {
+      console.error("Status de sessão desconhecido:", resultado.bruto);
+    }
+    window.location.href = ROTA_LOGIN;
+    return;
+  }
+
+  switch (resultado.status) {
     case "mfa_pendente":
       await tratarMfaPendente();
       break;
 
     case "onboarding_pendente": {
-      const senhaJaDefinida = statusData?.senha_definida ? "1" : "0";
+      const senhaJaDefinida = resultado.senhaDefinida ? "1" : "0";
       window.location.href = `../../../../html/pages/auth/onboarding.html?senha_definida=${senhaJaDefinida}`;
       break;
     }
 
     case "completa":
-      window.location.href = `../../../../html/pages/auth/inicio.html`;
+      await irParaHomeDoUsuario();
       break;
-
-    default:
-      // Estado inesperado -- não assumimos sucesso silenciosamente.
-      console.error("Status de sessão desconhecido:", statusData?.status);
-      window.location.href = `../../../../html/pages/auth/login.html`;
   }
+}
+
+/**
+ * Busca /me (agora que a sessão está completa), guarda o payload
+ * inteiro em sessionStorage -- para as homes lerem sem precisar
+ * refazer o fetch -- e redireciona conforme tipo_usuario.
+ *
+ * usuario.to_dict() não expõe token/sessão nenhuma, só dados de
+ * perfil; o cookie httpOnly continua sendo a única credencial real,
+ * nunca acessível via JS.
+ */
+async function irParaHomeDoUsuario() {
+  let payload;
+
+  try {
+    const resp = await fetch(`${URL_BASE_API}/auth/me`, {
+      method: "GET",
+      credentials: "include",
+    });
+
+    if (!resp.ok) {
+      throw new Error(`/me respondeu ${resp.status}`);
+    }
+
+    const corpo = await resp.json();
+    payload = corpo.data ?? corpo; // json_success envelopa em { data, message }
+  } catch (erro) {
+    console.error("Falha ao buscar dados do usuário em /me:", erro);
+    exibirMensagem("Não foi possível carregar seus dados. Tente entrar novamente.", "erro");
+    setTimeout(() => { window.location.href = ROTA_LOGIN; }, 2000);
+    return;
+  }
+
+  const tipo = payload?.usuario?.tipo_usuario;
+  const destino = DESTINO_POR_TIPO[tipo];
+
+  if (!destino) {
+    // tipo_usuario ausente ou não mapeado -- mais seguro travar aqui
+    // do que adivinhar uma home genérica pra um perfil desconhecido.
+    console.error("tipo_usuario sem destino mapeado:", tipo);
+    window.location.href = ROTA_LOGIN;
+    return;
+  }
+
+  sessionStorage.setItem(CHAVE_SESSION_STORAGE, JSON.stringify(payload));
+  window.location.href = destino;
 }
 
 async function tratarMfaPendente() {
@@ -84,7 +138,7 @@ async function tratarMfaPendente() {
   try {
     await confirmarSegundoFator();
     exibirMensagem("Login realizado com sucesso!", "sucesso");
-    window.location.href = `../../../../html/pages/auth/inicio.html`;
+    await irParaHomeDoUsuario();
   } catch (erro) {
     console.error("Falha na confirmação de identidade:", erro);
 
@@ -135,7 +189,7 @@ function exibirMensagemVoltarAoLogin(mensagem) {
   if (!container) return;
 
   const link = document.createElement("a");
-  link.href = "../../../../html/pages/auth/login.html";
+  link.href = ROTA_LOGIN;
   link.textContent = "Voltar para o login";
   link.className = "link-fallback-google";
   container.appendChild(document.createElement("br"));

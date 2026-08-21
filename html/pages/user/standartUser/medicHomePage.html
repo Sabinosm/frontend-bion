@@ -40,9 +40,9 @@
 
     <div class="nav-group nav-group--system">
       <button type="button" class="nav-item nav-item--profile" id="open-settings">
-        <span class="nav-avatar">DR</span>
+        <span class="nav-avatar" id="nav-avatar-iniciais"></span>
         <span class="nav-label-group">
-          <span class="nav-label">Dra. Renata</span>
+          <span class="nav-label" id="nav-nome-usuario"></span>
           <span class="nav-sublabel">Perfil</span>
         </span>
       </button>
@@ -254,7 +254,7 @@
         <p class="panel-subtitle">Alguns dados são gerenciados pela sua instituição e não podem ser editados aqui.</p>
 
         <div class="avatar-row">
-          <div class="avatar-preview">DR</div>
+          <div class="avatar-preview" id="user-avatar-iniciais"></div>
           <div>
             <button class="btn-secondary btn-secondary--sm">Alterar foto</button>
             <p class="field-hint">JPG ou PNG, até 4MB.</p>
@@ -263,26 +263,24 @@
 
         <div class="field-group">
           <label class="field-label" for="f-nome">Nome</label>
-          <input class="field-input" type="text" id="f-nome" value="Renata Carvalho Mendes" data-track>
+          <input class="field-input" type="text" id="f-nome" value="" data-track>
         </div>
 
         <div class="field-group">
           <label class="field-label" for="f-telefone">Telefone</label>
-          <input class="field-input" type="tel" id="f-telefone" value="(11) 98432-1170" data-track>
+          <input class="field-input" type="tel" id="f-telefone" value="" data-track>
         </div>
 
         <div class="field-group field-group--locked">
           <label class="field-label">CRM</label>
-          <div class="field-locked">
-            123456-SP
+          <div class="field-locked" id="user-crm">
             <span class="field-locked-tag">Gerenciado pela instituição</span>
           </div>
         </div>
 
         <div class="field-group field-group--locked">
           <label class="field-label">E-mail</label>
-          <div class="field-locked">
-            renata.mendes@hospitalexemplo.com.br
+          <div class="field-locked" id="user-email">
             <span class="field-locked-tag">Gerenciado pela instituição</span>
           </div>
         </div>
@@ -294,34 +292,8 @@
         <h2 class="panel-title">Autenticação em duas etapas</h2>
         <p class="panel-subtitle">Obrigatória via chave de acesso (WebAuthn) — passkey, chave de segurança física ou biometria do dispositivo.</p>
 
-        <div class="device-list">
-          <div class="device-item">
-            <div class="device-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                <rect x="5" y="2" width="14" height="20" rx="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M11 18h2" stroke-linecap="round"/>
-              </svg>
-            </div>
-            <div class="device-info">
-              <p class="device-name">iPhone de Renata</p>
-              <p class="device-meta">Adicionado em 12/06/2026 · Último uso hoje</p>
-            </div>
-            <button class="btn-ghost btn-ghost--sm">Remover</button>
-          </div>
-
-          <div class="device-item">
-            <div class="device-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                <rect x="2" y="4" width="20" height="14" rx="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M8 21h8M12 18v3" stroke-linecap="round"/>
-              </svg>
-            </div>
-            <div class="device-info">
-              <p class="device-name">Chave de segurança USB</p>
-              <p class="device-meta">Adicionado em 03/03/2026 · Último uso há 2 dias</p>
-            </div>
-            <button class="btn-ghost btn-ghost--sm">Remover</button>
-          </div>
+        <div class="device-list" id="device-list">
+          <!-- Preenchido dinamicamente por preencherPainelPerfil.js a partir de webauthn.credenciais -->
         </div>
 
         <button class="btn-secondary" style="margin-top: 4px;">+ Adicionar novo dispositivo</button>
@@ -337,7 +309,7 @@
         <h2 class="panel-title">Login</h2>
         <div class="field-group field-group--locked">
           <label class="field-label">Usuário de login</label>
-          <div class="field-locked">renata.mendes</div>
+          <div class="field-locked" id="user-login"></div>
         </div>
       </section>
 
@@ -429,5 +401,6 @@
 </div>
 
 <script src="../../../../js/pages/user/standartUser/settings.js"></script>
+<script type="module" src="../../../../js/pages/user/standartUser/medicHomePage.js"></script>
 </body>
 </html>

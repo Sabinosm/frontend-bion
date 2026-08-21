@@ -65,7 +65,7 @@ formSenha.addEventListener("submit", async (event) => {
   try {
     await concluirOnboarding(senha);
     exibirMensagem("Cadastro concluído! Redirecionando...", "sucesso");
-    window.location.href = "../../../../html/pages/inicio.html";
+    window.location.href = "../../../../html/pages/user/standartUser/medicHomePage.html";
   } catch (erro) {
     console.error("Falha ao definir senha:", erro);
     exibirMensagem(erro.message || "Não foi possível definir a senha.", "erro");
