@@ -26,7 +26,7 @@ const CHAVE_SESSION_STORAGE = "bion-dados-usuario";
 const DESTINO_POR_TIPO = {
   medico: "../../../../html/pages/user/standartUser/medicHomePage.html",
   enfermeiro: "../../../../html/pages/user/standartUser/medicHomePage.html",
-  admin: "../../../../html/pages/user/standartUser/medicHomePage.html",
+  admin: "../../../../html/pages/user/admin/adminHomePage.html",
 };
 
 const ROTA_LOGIN = "../../../../html/pages/auth/login.html";
