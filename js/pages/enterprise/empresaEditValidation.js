@@ -9,44 +9,46 @@
 // Só cobre os campos editáveis aqui (nome_fantasia, cnes, cep, bairro,
 // numero, complemento) -- CNPJ e razão social são fixos nesta tela e
 // não entram na validação de edição.
+//
+// Nenhum campo é `required` aqui, diferente do cadastro: numa edição,
+// campo vazio = "mantém o valor atual" (placeholder), não "faltando".
+// Forçar o usuário a redigitar um dado que já existe só porque o campo
+// é obrigatório na tela de cadastro não faz sentido na tela de edição
+// -- exigir preenchimento faz sentido para dado novo, não para reafirmar
+// um dado que já está salvo. adminEmpresa.js resolve o fallback para o
+// valor original antes de montar o payload do PUT.
 
 const REGRAS = {
   'empresa-nome-fantasia': {
     label: 'o nome fantasia',
-    required: true,
     minLength: 2,
     maxLength: 255,
     regex: /^[\p{L}\p{N}\s.,&\-'()]+$/u,
   },
   'empresa-cnes': {
     label: 'o CNES',
-    required: false,
     // CNES: 7 dígitos numéricos
     regex: /^\d{7}$/,
     maxLength: 7,
   },
   'empresa-cep': {
     label: 'o CEP',
-    required: true,
     regex: /^\d{5}-?\d{3}$/,
     maxLength: 9,
   },
   'empresa-bairro': {
     label: 'o bairro',
-    required: true,
     minLength: 2,
     maxLength: 100,
     regex: /^[\p{L}\p{N}\s.,\-'()]+$/u,
   },
   'empresa-numero': {
     label: 'o número',
-    required: true,
     maxLength: 10,
     regex: /^(\d{1,8}[A-Za-z]?|[sS]\/[nN])$/,
   },
   'empresa-complemento': {
     label: 'o complemento',
-    required: false,
     maxLength: 150,
     regex: /^[\p{L}\p{N}\s.,\-'°ºª/]*$/u,
   },
@@ -77,11 +79,9 @@ function validarCampoPorRegra(fieldId) {
 
   const valor = input.value.trim();
 
+  // Vazio = "mantém o valor atual" -- nunca é erro nesta tela (ver nota
+  // no cabeçalho do arquivo sobre required não se aplicar em edição).
   if (valor.length === 0) {
-    if (regra.required) {
-      setError(fieldId, `Informe ${regra.label}`);
-      return false;
-    }
     clearError(fieldId);
     return true;
   }
@@ -109,7 +109,10 @@ function validarCepField() {
   const okFormato = validarCampoPorRegra('empresa-cep');
   if (!okFormato) return false;
 
-  const cep = document.getElementById('empresa-cep').value.replace(/\D/g, '');
+  const input = document.getElementById('empresa-cep');
+  if (input.value.trim().length === 0) return true; // vazio = mantém valor atual
+
+  const cep = input.value.replace(/\D/g, '');
   if (cep.length !== 8) {
     setError('empresa-cep', 'CEP inválido');
     return false;

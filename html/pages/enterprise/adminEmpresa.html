@@ -6,6 +6,7 @@
 <title>B-íon — Empresa</title>
 <link rel="stylesheet" href="../../../css/pages/user/admin/adminHomePage.css">
 <link rel="stylesheet" href="../../../css/pages/user/settings.css">
+<link rel="stylesheet" href="../../../css/pages/enterprise/adminEmpresa.css">
 </head>
 <body>
 
@@ -77,7 +78,12 @@
         <span class="nav-avatar" id="nav-avatar-iniciais"></span>
         <span class="nav-label-group">
           <span class="nav-label" id="nav-nome-usuario"></span>
-          <span class="nav-sublabel">Perfil</span>
+          <span class="nav-sublabel">· Perfil</span>
+        </span>
+        <span class="nav-profile-caret" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M6 15l6-6 6 6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </span>
       </button>
     </div>
@@ -94,45 +100,97 @@
       
     </header>
 
-    <section class="settings-panel settings-panel--active" style="max-width: 640px;">
-      <h2 class="panel-title">Dados da empresa</h2>
-      <p class="panel-subtitle">Informações institucionais, geridas pelo administrador principal.</p>
+    <section class="section section--centered">
+      <div class="panel-card">
+        <div class="panel-header-row">
+          <div>
+            <h2 class="panel-title">Empresa</h2>
+            <p class="panel-subtitle">CNPJ e razão social são fixos após o cadastro.</p>
+          </div>
+          <button type="button" class="btn-secondary btn-secondary--sm" id="empresa-btn-alterar">Alterar</button>
+        </div>
 
-      <div class="field-group field-group--locked">
-        <label class="field-label">Nome fantasia</label>
-        <div class="field-locked" id="empresa-nome-fantasia"></div>
-      </div>
+        <form id="form-empresa-editar">
 
-      <div class="field-group field-group--locked">
-        <label class="field-label">Razão social</label>
-        <div class="field-locked" id="empresa-razao-social"></div>
-      </div>
+          <div class="section-label">Dados da empresa</div>
 
-      <div class="field-group field-group--locked">
-        <label class="field-label">CNPJ</label>
-        <div class="field-locked" id="empresa-cnpj"></div>
-      </div>
+          <div class="row-2">
+            <!-- Fixo: exige alteração de registro (Receita) -- não editável aqui -->
+            <div class="field-group field-group--locked">
+              <label class="field-label">Razão social</label>
+              <div class="field-locked" id="empresa-razao-social"></div>
+            </div>
 
-      <div class="field-group field-group--locked">
-        <label class="field-label">CNES</label>
-        <div class="field-locked" id="empresa-cnes"></div>
-      </div>
+            <!-- Editável: 1 input só, readonly fora do modo de edição. Ao
+                 entrar em edição o valor atual vira placeholder, não fica
+                 dentro do campo -- ver adminEmpresa.js. -->
+            <div class="field-group field">
+              <label class="field-label" for="empresa-nome-fantasia">Nome fantasia</label>
+              <input class="field-input" type="text" id="empresa-nome-fantasia" data-track readonly>
+              <p class="error-msg" id="err-empresa-nome-fantasia"></p>
+            </div>
+          </div>
 
-      <div class="field-group field-group--locked">
-        <label class="field-label">Endereço</label>
-        <div class="field-locked" id="empresa-endereco"></div>
-      </div>
+          <div class="row-2">
+            <div class="field-group field-group--locked">
+              <label class="field-label">CNPJ</label>
+              <div class="field-locked" id="empresa-cnpj"></div>
+            </div>
 
-      <div class="panel-divider"></div>
+            <div class="field-group field">
+              <label class="field-label" for="empresa-cnes">CNES</label>
+              <input class="field-input" type="text" id="empresa-cnes" data-track readonly>
+              <p class="error-msg" id="err-empresa-cnes"></p>
+            </div>
+          </div>
 
-      <h2 class="panel-title">Plano</h2>
-      <p class="panel-subtitle">Detalhes do plano contratado.</p>
+          <div class="section-label">Endereço</div>
 
-      <div class="field-group field-group--locked">
-        <label class="field-label">Plano atual</label>
-        <div class="field-locked" id="empresa-plano">
-          <span id="empresa-plano-nome"></span>
-          <span class="field-locked-tag" id="empresa-plano-status"></span>
+          <div class="row-endereco">
+            <div class="field-group field">
+              <label class="field-label" for="empresa-cep">CEP</label>
+              <input class="field-input" type="text" id="empresa-cep" data-track readonly>
+              <div class="field-spinner" aria-hidden="true"></div>
+              <p class="error-msg" id="err-empresa-cep"></p>
+            </div>
+
+            <div class="field-group field">
+              <label class="field-label" for="empresa-bairro">Bairro</label>
+              <input class="field-input" type="text" id="empresa-bairro" data-track readonly>
+              <p class="error-msg" id="err-empresa-bairro"></p>
+            </div>
+
+            <div class="field-group field">
+              <label class="field-label" for="empresa-numero">Número</label>
+              <input class="field-input" type="text" id="empresa-numero" data-track readonly>
+              <p class="error-msg" id="err-empresa-numero"></p>
+            </div>
+
+            <div class="field-group field">
+              <label class="field-label" for="empresa-complemento">Complemento</label>
+              <input class="field-input" type="text" id="empresa-complemento" data-track readonly>
+              <p class="error-msg" id="err-empresa-complemento"></p>
+            </div>
+          </div>
+
+          <!-- Botões de ação -- escondidos até "Alterar" ser clicado -->
+          <div class="form-actions" id="empresa-form-actions" hidden>
+            <button type="button" class="btn-ghost" id="empresa-btn-cancelar">Cancelar</button>
+            <button type="submit" class="btn-primary" id="empresa-btn-salvar">Salvar</button>
+          </div>
+        </form>
+
+        <div class="panel-divider"></div>
+
+        <h2 class="panel-title">Plano</h2>
+        <p class="panel-subtitle">Detalhes do plano contratado.</p>
+
+        <div class="field-group field-group--locked">
+          <label class="field-label">Plano atual</label>
+          <div class="field-locked" id="empresa-plano">
+            <span id="empresa-plano-nome"></span>
+            <span class="field-locked-tag" id="empresa-plano-status"></span>
+          </div>
         </div>
       </div>
     </section>

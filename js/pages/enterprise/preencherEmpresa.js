@@ -2,70 +2,48 @@
 //
 // Preenche a UI da página Empresa (adminEmpresa.html) com os dados
 // retornados por GET /empresas/ -> to_dict():
-//   { uuid, nome_fantasia, razao_social, cnpj, cnes, status_plano, plano, criado_em }
+//   { uuid, nome_fantasia, razao_social, cnpj, cnes, status_plano,
+//     plano, criado_em, endereco: { cep, bairro, numero, complemento } }
+//
+// Cada campo editável é UM único <input readonly>, com o valor atual
+// dentro dele (não um par display/input). O modo de edição (esvaziar +
+// usar o valor como placeholder) é responsabilidade de adminEmpresa.js,
+// que já tem o controle de entrar/sair da edição -- aqui só preenchemos
+// o estado inicial "de leitura".
 //
 // Segue o mesmo padrão de preencherPerfil.js: não busca dado nenhum
 // sozinho -- recebe o payload já pronto e só decide "onde exibir o quê".
 
+const CAMPOS_ENDERECO_SIMPLES = ['bairro', 'numero', 'complemento'];
+
 /**
  * Preenche os campos institucionais e de plano a partir do payload de /empresas/.
- * @param {{
- *   uuid?: string,
- *   nome_fantasia?: string,
- *   razao_social?: string,
- *   cnpj?: string,
- *   cnes?: string,
- *   status_plano?: string,
- *   plano?: string,
- *   criado_em?: string
- * }} empresa
+ * @param {object} empresa - payload de to_dict() (ver cabeçalho do arquivo)
  */
 export function preencherPainelEmpresa(empresa) {
-  preencherDadosInstitucionais(empresa);
-  preencherEndereco(empresa.endereco);
+  preencherDadosFixos(empresa);
+
+  setValor('empresa-nome-fantasia', empresa.nome_fantasia);
+  setValor('empresa-cnes', empresa.cnes);
+
+  const endereco = empresa.endereco ?? {};
+  setValor('empresa-cep', formatarCep(endereco.cep));
+  CAMPOS_ENDERECO_SIMPLES.forEach((campo) => setValor(`empresa-${campo}`, endereco[campo]));
+
   preencherPlano(empresa);
 }
 
-function preencherDadosInstitucionais(empresa) {
-  const nomeFantasia = document.getElementById('empresa-nome-fantasia');
+function preencherDadosFixos(empresa) {
   const razaoSocial = document.getElementById('empresa-razao-social');
   const cnpj = document.getElementById('empresa-cnpj');
-  const cnes = document.getElementById('empresa-cnes');
 
-  if (nomeFantasia) nomeFantasia.textContent = empresa.nome_fantasia ?? '—';
   if (razaoSocial) razaoSocial.textContent = empresa.razao_social ?? '—';
   if (cnpj) cnpj.textContent = formatarCnpj(empresa.cnpj);
-  // CNES é opcional (nem toda empresa tem) -- mantém o traço em vez de "undefined".
-  if (cnes) cnes.textContent = empresa.cnes ?? '—';
 }
 
-function preencherEndereco(endereco) {
-  const alvo = document.getElementById('empresa-endereco');
-  if (!alvo) return;
-
-  if (!endereco) {
-    alvo.textContent = '—';
-    return;
-  }
-
-  alvo.textContent = formatarEndereco(endereco);
-}
-
-function formatarEndereco({ cep, bairro, numero, complemento } = {}) {
-  // to_dict() ainda não retorna logradouro/cidade/UF -- monta só com o
-  // que existe hoje (bairro, número, complemento, CEP). Ajustar aqui
-  // quando esses campos forem adicionados ao backend.
-  const linha1 = [numero, bairro].filter(Boolean).join(', ');
-  const partes = [linha1, complemento, formatarCep(cep)].filter(Boolean);
-
-  return partes.length > 0 ? partes.join(' — ') : '—';
-}
-
-function formatarCep(cep) {
-  if (!cep) return '';
-  const digitos = cep.replace(/\D/g, '');
-  if (digitos.length !== 8) return cep;
-  return digitos.replace(/(\d{5})(\d{3})/, '$1-$2');
+function setValor(id, valor) {
+  const input = document.getElementById(id);
+  if (input) input.value = valor ?? '';
 }
 
 function preencherPlano(empresa) {
@@ -79,11 +57,39 @@ function preencherPlano(empresa) {
   if (planoStatus) planoStatus.textContent = formatarStatusPlano(empresa.status_plano);
 }
 
+/**
+ * Lê os campos editáveis do formulário e monta o payload para o PUT.
+ * Um campo deixado vazio pelo usuário (placeholder ainda visível, nada
+ * digitado) mantém o valor original -- ver getValorEfetivo em
+ * adminEmpresa.js, que resolve isso antes de chamar esta função.
+ */
+export function lerFormularioEmpresa() {
+  const valor = (id) => document.getElementById(id)?.value.trim() ?? '';
+
+  return {
+    nome_fantasia: valor('empresa-nome-fantasia'),
+    cnes: valor('empresa-cnes') || null,
+    endereco: {
+      cep: valor('empresa-cep'),
+      bairro: valor('empresa-bairro'),
+      numero: valor('empresa-numero'),
+      complemento: valor('empresa-complemento') || null,
+    },
+  };
+}
+
 function formatarCnpj(cnpj) {
   if (!cnpj) return '—';
   const digitos = cnpj.replace(/\D/g, '');
   if (digitos.length !== 14) return cnpj; // já formatado ou formato inesperado -- exibe como veio
   return digitos.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
+}
+
+function formatarCep(cep) {
+  if (!cep) return '';
+  const digitos = cep.replace(/\D/g, '');
+  if (digitos.length !== 8) return cep;
+  return digitos.replace(/(\d{5})(\d{3})/, '$1-$2');
 }
 
 function formatarStatusPlano(status) {

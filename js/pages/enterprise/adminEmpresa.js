@@ -2,7 +2,15 @@
 //
 // Orquestra a página Empresa: busca os dados via GET /empresas/,
 // popula a UI através de preencherEmpresa.js, e controla o modo de
-// edição (botão "Alterar" -> campos habilitados -> "Salvar"/"Cancelar").
+// edição.
+//
+// Modo de edição: ao clicar "Alterar", cada input editável perde o
+// valor atual (que vira placeholder) e fica habilitado -- o campo
+// esvazia visualmente até o usuário digitar algo, mostrando o valor
+// antigo como referência translúcida em vez de um valor "pronto pra
+// apagar". Um campo deixado vazio no submit (placeholder ainda
+// visível) é tratado como "sem mudança" e mantém o valor original,
+// não é enviado como "".
 //
 // Campos editáveis: nome_fantasia, cnes, endereco (cep/bairro/numero/
 // complemento). CNPJ e razão social ficam fixos -- exigem alteração de
@@ -13,11 +21,11 @@
 // máscaras de CEP, mesmo modelo de validação por campo com
 // REGRAS + mensagens de erro em #err-<id>.
 
-import { preencherPainelEmpresa, lerFormularioEmpresa } from './preencherEmpresa.js';
+import { preencherPainelEmpresa } from './preencherEmpresa.js';
 import { ligarValidacaoEmTempoReal, validarFormularioEdicaoEmpresa, limparErros } from './empresaEditValidation.js';
 import { URL_BASE_API } from '../../config.js';
 
-const URL_BASE = URL_BASE_API + '/empresas/'; 
+const URL_BASE = `${URL_BASE_API}/empresas/`;
 
 const CAMPOS_EDITAVEIS = [
   'empresa-nome-fantasia',
@@ -77,34 +85,87 @@ function ligarMascaras() {
   });
 }
 
+// ── busca de CEP (ViaCEP -- mesmo serviço usado no cadastro, ver
+// buscarDadosCep em enterpriseRegistration.js) ──────────────────
+function setFieldLoading(fieldId, isLoading) {
+  const field = document.getElementById(fieldId)?.closest('.field');
+  field?.classList.toggle('is-loading', isLoading);
+}
+
+async function buscarDadosCep(cepLimpo) {
+  setFieldLoading('empresa-cep', true);
+  try {
+    const resp = await fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`);
+
+    if (!resp.ok) {
+      console.warn(`Consulta de CEP retornou status ${resp.status}`);
+      return;
+    }
+
+    const dados = await resp.json();
+
+    // ViaCEP responde 200 mesmo para CEP inexistente, sinalizando via
+    // { erro: true } no corpo -- por isso o check é no JSON, não no status.
+    if (dados.erro) {
+      console.warn('CEP não encontrado na base do ViaCEP');
+      return;
+    }
+
+    const bairroInput = document.getElementById('empresa-bairro');
+    if (bairroInput) bairroInput.value = dados.bairro || '';
+  } catch (erro) {
+    console.error('Erro ao consultar CEP:', erro);
+    // Falha de rede/parse não bloqueia a edição -- o campo continua
+    // editável manualmente.
+  } finally {
+    setFieldLoading('empresa-cep', false);
+  }
+}
+
+function ligarBuscaDeCep() {
+  const cepInput = document.getElementById('empresa-cep');
+  if (!cepInput) return;
+
+  cepInput.addEventListener('input', function () {
+    // Só dispara em modo de edição (campo habilitado) -- fora dele o
+    // input é readonly e não deveria dar 'input' de qualquer forma,
+    // mas a guarda evita disparo por preenchimento programático
+    // (ex.: preencherPainelEmpresa setando .value ao carregar a página).
+    if (this.readOnly) return;
+
+    const digits = this.value.replace(/\D/g, '');
+    if (digits.length === 8) buscarDadosCep(digits);
+  });
+}
+
 // ── alternância modo exibição / edição ─────────────────────────
 function entrarModoEdicao() {
   CAMPOS_EDITAVEIS.forEach((id) => {
-    const display = document.getElementById(id + '-display');
     const input = document.getElementById(id);
-    if (display) display.hidden = true;
-    if (input) {
-      input.hidden = false;
-      input.disabled = false;
-    }
+    if (!input) return;
+    // valor atual vira placeholder (referência visível, translúcida)
+    // -- o campo em si esvazia, para não parecer que o valor antigo
+    // ainda é o que será salvo.
+    input.placeholder = input.value;
+    input.value = '';
+    input.readOnly = false;
   });
 
-  document.getElementById('empresa-save-bar').hidden = false;
+  document.getElementById('empresa-form-actions').hidden = false;
   document.getElementById('empresa-btn-alterar').hidden = true;
+
+  document.getElementById(CAMPOS_EDITAVEIS[0])?.focus();
 }
 
 function sairModoEdicao() {
   CAMPOS_EDITAVEIS.forEach((id) => {
-    const display = document.getElementById(id + '-display');
     const input = document.getElementById(id);
-    if (display) display.hidden = false;
-    if (input) {
-      input.hidden = true;
-      input.disabled = true;
-    }
+    if (!input) return;
+    input.readOnly = true;
+    input.placeholder = '';
   });
 
-  document.getElementById('empresa-save-bar').hidden = true;
+  document.getElementById('empresa-form-actions').hidden = true;
   document.getElementById('empresa-btn-alterar').hidden = false;
   limparErros();
 }
@@ -114,6 +175,31 @@ function cancelarEdicao() {
   // atuais (a última resposta válida da API), não com o estado do form.
   if (empresaAtual) preencherPainelEmpresa(empresaAtual);
   sairModoEdicao();
+}
+
+/**
+ * Lê um campo tratando "vazio, com placeholder visível" como
+ * "sem mudança": devolve o valor digitado, ou o placeholder (valor
+ * original) se o campo foi deixado em branco.
+ */
+function getValorEfetivo(id) {
+  const input = document.getElementById(id);
+  if (!input) return '';
+  const digitado = input.value.trim();
+  return digitado.length > 0 ? digitado : input.placeholder;
+}
+
+function lerFormularioComFallback() {
+  return {
+    nome_fantasia: getValorEfetivo('empresa-nome-fantasia'),
+    cnes: getValorEfetivo('empresa-cnes') || null,
+    endereco: {
+      cep: getValorEfetivo('empresa-cep'),
+      bairro: getValorEfetivo('empresa-bairro'),
+      numero: getValorEfetivo('empresa-numero'),
+      complemento: getValorEfetivo('empresa-complemento') || null,
+    },
+  };
 }
 
 async function salvarEdicao(evento) {
@@ -127,7 +213,7 @@ async function salvarEdicao(evento) {
   botaoSalvar.disabled = true;
 
   try {
-    const dados = lerFormularioEmpresa();
+    const dados = lerFormularioComFallback();
     empresaAtual = await atualizarEmpresa(dados);
     preencherPainelEmpresa(empresaAtual);
     sairModoEdicao();
@@ -149,6 +235,7 @@ function ligarControlesDeEdicao() {
 
 async function iniciar() {
   ligarMascaras();
+  ligarBuscaDeCep();
   ligarValidacaoEmTempoReal();
   ligarControlesDeEdicao();
 

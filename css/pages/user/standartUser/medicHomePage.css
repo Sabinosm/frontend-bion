@@ -124,7 +124,7 @@ body {
   flex: 1;
   margin-left: 220px;
   padding: 40px 48px;
-  max-width: 900px;
+  /*max-width: 900px; comentado pois quero centralizado sem espaço por enquanto*/
 }
 
 .main-header {

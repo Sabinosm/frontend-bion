@@ -92,6 +92,9 @@ body {
 
 .nav-item--profile {
   margin-top: 4px;
+  position: relative;
+  padding-right: 30px;
+  min-width: 0;
 }
 
 .nav-avatar {
@@ -108,15 +111,50 @@ body {
   flex-shrink: 0;
 }
 
+/* Nome e "· Perfil" tentam ficar lado a lado (Nome · Perfil); se o
+   nome for grande demais para caber, quebra e "· Perfil" desce para
+   a linha de baixo, alinhado à esquerda com o nome. */
 .nav-label-group {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 6px;
+  row-gap: 0;
   line-height: 1.25;
+  min-width: 0;
+}
+
+.nav-label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 
 .nav-sublabel {
   font-size: 11px;
   color: var(--palette-gray-400);
+  white-space: nowrap;
+}
+
+/* Setinha: aponta para cima por padrão, gira para baixo quando o
+   modal de configurações está aberto (o overlay é irmão de .app,
+   por isso o seletor ~ aqui). */
+.nav-profile-caret {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  color: var(--sidebar-text);
+  transform: translateY(-50%) rotate(0deg);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+.nav-profile-caret svg { width: 100%; height: 100%; }
+
+.settings-overlay--visible ~ .app .nav-profile-caret {
+  transform: translateY(-50%) rotate(180deg);
 }
 
 /* ===== MAIN (com margem para compensar a sidebar fixa) ===== */
@@ -124,7 +162,7 @@ body {
   flex: 1;
   margin-left: 220px;
   padding: 40px 48px;
-  max-width: 900px;
+  /*max-width: 900px; comentado pois quero centralizado sem espaço por enquanto*/
 }
 
 .main-header {

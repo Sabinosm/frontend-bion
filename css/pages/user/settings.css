@@ -128,12 +128,12 @@ body.no-scroll {
 .panel-divider {
   height: 1px;
   background: var(--border);
-  margin: 28px 0;
+  margin: 20px 0;
 }
 
 /* ===== Campos ===== */
 .field-group {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   max-width: 420px;
 }
 
